@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+
 import { ref, onMounted } from 'vue'
-import { supabase } from './lib/supabaseClient'
+import { supabase } from './lib/supabaseClient.js'
 
 const profiles = ref([])
 
