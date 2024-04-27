@@ -2,24 +2,29 @@
 import { RouterLink, RouterView } from 'vue-router'
 
 import { ref, onMounted } from 'vue'
-import { supabase } from './lib/supabaseClient.js'
+import { supabase } from './lib/supabaseClient'
 
 const profiles = ref([])
 
 async function getProfiles() {
-  const { data } = await supabase.from('countries').select()
-  profiles.value = data
+  const { data, error } = await supabase.from('user_profile').select()
+  if (error) {
+    console.error(error)
+  } else {
+    profiles.value = data
+  }
 }
 
-onMounted(() => {
-  getProfiles()
+onMounted(async () => {
+  await getProfiles()
 })
 </script>
 
 <template>
   <ul>
-    <!-- <li v-for="country in profiles" :key="country.id">{{ country.name }}</li> 
-    https://supabase.com/docs/guides/getting-started/quickstarts/vue
+    <li v-for="profile in profiles" :key="profile.id">{{ profile.username }}</li>
+    <!-- https://supabase.com/docs/guides/getting-started/quickstarts/vue
+    https://supabase.com/dashboard/project/kzqlgtcpzttmatwfxlxz
   --></ul>
   <div>
     <nav>
