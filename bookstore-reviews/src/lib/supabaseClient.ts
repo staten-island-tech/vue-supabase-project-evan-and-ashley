@@ -1,5 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
-export const supabase = createClient('https://kzqlgtcpzttmatwfxlxz.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt6cWxndGNwenR0bWF0d2Z4bHh6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTIyMzYzMzUsImV4cCI6MjAyNzgxMjMzNX0.16WLZsbQhRyIuYaEoMrvrBq7i3TtluZzgDBRxShK5Q0')
+// if (!process.env.VITE_SUPABASE_URL || !process.env.VITE_SUPABASE_ANON_KEY) {
+//   throw new Error('Supabase URL or Anon Key is not set')
+// } uncomment if supabaseUrl error affects running
+
+const supabaseUrl = process.env.VITE_SUPABASE_URL
+const supabaseAnonKey = process.env.VITE_SUPABASE_ANON_KEY
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // npm install @supabase/supabase-js
