@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { supabase } from '../supabase'
+import { supabase } from '..supabaseClient.ts'
 
 const loading = ref(false)
 const email = ref('')
