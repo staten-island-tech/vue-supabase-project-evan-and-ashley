@@ -1,22 +1,74 @@
 <script setup>
-import { ref } from 'vue'
 import { supabase } from '../supabase'
+import { onMounted, ref, toRefs } from 'vue'
 
-const loading = ref(false)
-const email = ref('')
+const props = defineProps(['session'])
+const { session } = toRefs(props)
 
-const handleLogin = async () => {
+const loading = ref(true)
+const username = ref('')
+const website = ref('')
+const avatar_url = ref('')
+
+onMounted(() => {
+  getProfile()
+})
+
+async function getProfile() {
   try {
     loading.value = true
-    const { error } = await supabase.auth.signInWithOtp({
-      email: email.value
-    })
-    if (error) throw error
-    alert('Check your email for the login link!')
-  } catch (error) {
-    if (error instanceof Error) {
-      alert(error.message)
+    const { user } = session.value
+
+    const { data, error, status } = await supabase
+      .from('profiles')
+      .select(`username, website, avatar_url`)
+      .eq('id', user.id)
+      .single()
+
+    if (error && status !== 406) throw error
+
+    if (data) {
+      username.value = data.username
+      website.value = data.website
+      avatar_url.value = data.avatar_url
     }
+  } catch (error) {
+    alert(error.message)
+  } finally {
+    loading.value = false
+  }
+}
+
+async function updateProfile() {
+  try {
+    loading.value = true
+    const { user } = session.value
+
+    const updates = {
+      id: user.id,
+      username: username.value,
+      website: website.value,
+      avatar_url: avatar_url.value,
+      updated_at: new Date()
+    }
+
+    const { error } = await supabase.from('profiles').upsert(updates)
+
+    if (error) throw error
+  } catch (error) {
+    alert(error.message)
+  } finally {
+    loading.value = false
+  }
+}
+
+async function signOut() {
+  try {
+    loading.value = true
+    const { error } = await supabase.auth.signOut()
+    if (error) throw error
+  } catch (error) {
+    alert(error.message)
   } finally {
     loading.value = false
   }
@@ -24,21 +76,31 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <form class="row flex-center flex" @submit.prevent="handleLogin">
-    <div class="col-6 form-widget">
-      <h1 class="header">Supabase + Vue 3</h1>
-      <p class="description">Sign in via magic link with your email below</p>
-      <div>
-        <input class="inputField" required type="email" placeholder="Your email" v-model="email" />
-      </div>
-      <div>
-        <input
-          type="submit"
-          class="button block"
-          :value="loading ? 'Loading' : 'Send magic link'"
-          :disabled="loading"
-        />
-      </div>
+  <form class="form-widget" @submit.prevent="updateProfile">
+    <div>
+      <label for="email">Email</label>
+      <input id="email" type="text" :value="session.user.email" disabled />
+    </div>
+    <div>
+      <label for="username">Name</label>
+      <input id="username" type="text" v-model="username" />
+    </div>
+    <div>
+      <label for="website">Website</label>
+      <input id="website" type="url" v-model="website" />
+    </div>
+
+    <div>
+      <input
+        type="submit"
+        class="button primary block"
+        :value="loading ? 'Loading ...' : 'Update'"
+        :disabled="loading"
+      />
+    </div>
+
+    <div>
+      <button class="button block" @click="signOut" :disabled="loading">Sign Out</button>
     </div>
   </form>
 </template>
