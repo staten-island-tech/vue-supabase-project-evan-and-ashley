@@ -13,7 +13,12 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@supabase/supabase-js": "^2.43.2",
+=======
+    "@supabase/supabase-js": "^2.43.1",
+    "aos": "^2.3.4",
+>>>>>>> 0e49fb68625771f76749200c8317a87404bc2af4
     "dotenv": "^16.4.5",
     "pinia": "^2.1.7",
     "vue": "^3.4.21",

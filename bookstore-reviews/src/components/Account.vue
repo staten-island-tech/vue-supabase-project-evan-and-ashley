@@ -9,6 +9,7 @@ const loading = ref(true)
 const username = ref('')
 const website = ref('')
 const avatar_url = ref('')
+const bio = ref('')
 
 onMounted(() => {
   getProfile()
@@ -21,7 +22,7 @@ async function getProfile() {
 
     const { data, error, status } = await supabase
       .from('profiles')
-      .select(`username, website, avatar_url`)
+      .select(`username, bio, avatar_url`)
       .eq('id', user.id)
       .single()
 
@@ -47,7 +48,7 @@ async function updateProfile() {
     const updates = {
       id: user.id,
       username: username.value,
-      website: website.value,
+      bio: bio.value,
       avatar_url: avatar_url.value,
       updated_at: new Date()
     }
@@ -86,8 +87,8 @@ async function signOut() {
       <input id="username" type="text" v-model="username" />
     </div>
     <div>
-      <label for="website">Website</label>
-      <input id="website" type="url" v-model="website" />
+      <label for="biography">Bio</label>
+      <input id="biography" type="text" v-model="biography" />
     </div>
 
     <div>
