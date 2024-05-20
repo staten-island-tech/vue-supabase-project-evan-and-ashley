@@ -1,3 +1,17 @@
+<template>
+  <header>
+    <div class="wrapper">
+      <nav>
+        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000">Explore</RouterLink>
+      </nav>
+    </div>
+  </header>
+  <div class="container" style="padding: 50px 0 100px 0">
+    <Account v-if="session" :session="session" />
+    <Auth v-else />
+  </div>
+</template>
+
 <script setup>
 import { onMounted, ref } from 'vue'
 import Account from './components/Account.vue'
@@ -17,12 +31,7 @@ onMounted(() => {
 })
 </script>
 
-<template>
-  <div class="container" style="padding: 50px 0 100px 0">
-    <Account v-if="session" :session="session" />
-    <Auth v-else />
-  </div>
-</template>
+
 <!--   
 import { RouterLink, RouterView } from 'vue-router'
 import Account from '/components/Account.vue'
