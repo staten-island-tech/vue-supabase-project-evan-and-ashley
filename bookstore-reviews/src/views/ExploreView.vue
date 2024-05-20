@@ -6,7 +6,7 @@
 
 <script setup>
 import { ref } from 'vue'
-
+console.log("error")
 
 const bookData = ref(null)
     const API = 'https://openlibrary.org/search.json?title=lost'
