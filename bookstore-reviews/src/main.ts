@@ -12,3 +12,6 @@ app.use(createPinia())
 app.use(router)
 
 app.mount('#app')
+/**
+ * Keeps track of if the user is logged in or out and will update userSession state accordingly.
+ */
