@@ -2,7 +2,15 @@
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000">Explore</RouterLink>
+        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+          >Explore</RouterLink
+        >
+        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+          >Explore</RouterLink
+        >
+        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+          >Explore</RouterLink
+        >
       </nav>
     </div>
   </header>
@@ -10,9 +18,15 @@
     <Account v-if="session" :session="session" />
     <Auth v-else />
   </div>
+  <RouterView />
 </template>
 
 <script setup>
+import { RouterLink, RouterView } from 'vue-router'
+import AOS from 'aos'
+import 'aos/dist/aos.css'
+AOS.init()
+
 import { onMounted, ref } from 'vue'
 import Account from './components/Account.vue'
 import Auth from './components/Auth.vue'
@@ -30,7 +44,6 @@ onMounted(() => {
   })
 })
 </script>
-
 
 <!--   
 import { RouterLink, RouterView } from 'vue-router'
