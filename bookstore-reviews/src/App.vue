@@ -5,12 +5,6 @@
         <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
           >Explore</RouterLink
         >
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
-          >Explore</RouterLink
-        >
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
-          >Explore</RouterLink
-        >
       </nav>
     </div>
   </header>

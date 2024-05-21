@@ -26,6 +26,11 @@ const bookData = ref(null)
 }
 
 
+onMounted(() => {
+  fetchData(API)
+  AOS.init()
+})
+
 </script>
 
 <style lang="scss" scoped>
