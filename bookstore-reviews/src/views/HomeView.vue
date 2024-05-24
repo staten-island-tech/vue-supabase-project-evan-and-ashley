@@ -13,6 +13,9 @@
       </form>
     </div>
   </div>
+  <!-- import books to exploreview and setup home ui in app.vue
+  HomeView will have user's saved books and personal library
+  ExploreView will have every book with comments and ratings -->
 </template>
 
 <script setup lang="ts">

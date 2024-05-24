@@ -39,6 +39,7 @@ const handleLogin = async () => {
           placeholder="Your password"
           v-model="password"
         />
+        <!-- take to homeview when login -->
       </div>
       <div>
         <input
