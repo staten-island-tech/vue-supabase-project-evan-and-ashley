@@ -2,10 +2,11 @@
     <div>
         <h1> hellow</h1>
     </div>
+    
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref , onMounted} from 'vue'
 console.log("error")
 
 const bookData = ref(null)
