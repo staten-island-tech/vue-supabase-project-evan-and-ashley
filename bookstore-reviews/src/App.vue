@@ -1,27 +1,20 @@
 <template>
-  <header>
-    <ul class="wrapper">
-      <li>
-        <nav>
+  <header v-if="isLoggedIn">
+    <div class="wrapper">
+      <nav>
+        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+          >Explore</RouterLink
+        >
+        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+          >Explore</RouterLink
+        >
         <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
           >Explore</RouterLink
         >
       </nav>
-      </li>
-      <li> 
-        <nav>
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
-          >Explore</RouterLink
-        >
-      </nav>
-      </li>
-    </ul>
+      </div>
   </header>
-  <div class="container" style="padding: 50px 0 100px 0">
-    <Account v-if="session" :session="session" />
-    <Auth v-else />
-  </div>
-  <RouterView />
+
 </template>
 
 <script setup>
@@ -31,8 +24,6 @@ import 'aos/dist/aos.css'
 AOS.init()
 
 import { onMounted, ref } from 'vue'
-import Account from './components/Account.vue'
-import Auth from './components/Auth.vue'
 import { supabase } from '@/lib/supabaseClient'
 
 const session = ref()
