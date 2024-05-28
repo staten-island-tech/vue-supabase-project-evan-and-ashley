@@ -6,7 +6,7 @@ const loading = ref(false)
 const email = ref('')
 const password = ref('')
 
-const handleLogin = async () => {
+const handleSignUp = async () => {
   try {
     loading.value = true
     const { error } = await supabase.auth.signUp({
@@ -46,7 +46,7 @@ const handleLogin = async () => {
         <input
           type="submit"
           class="button block"
-          :value="loading ? 'Loading' : 'Send magic link'"
+          :value="loading ? 'Loading' : 'Sign Up'"
           :disabled="loading"
         />
       </div>
