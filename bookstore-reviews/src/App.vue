@@ -1,12 +1,21 @@
 <template>
   <header>
-    <div class="wrapper">
-      <nav>
+    <ul class="wrapper">
+      <li>
+        <nav>
         <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
           >Explore</RouterLink
         >
       </nav>
-    </div>
+      </li>
+      <li> 
+        <nav>
+        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+          >Explore</RouterLink
+        >
+      </nav>
+      </li>
+    </ul>
   </header>
   <div class="container" style="padding: 50px 0 100px 0">
     <Account v-if="session" :session="session" />
@@ -38,6 +47,24 @@ onMounted(() => {
   })
 })
 </script>
+
+<style scoped>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  display: inline;
+  float: left;
+}
+
+a {
+  display: block;
+  padding: 8px;
+  background-color: #dddddd;
+}
+</style>
 
 <!--   
 import { RouterLink, RouterView } from 'vue-router'

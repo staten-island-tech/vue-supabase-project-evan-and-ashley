@@ -1,6 +1,8 @@
 <template>
     <div>
-        <h1> hellow</h1>
+      <label> Search book by title: </label>
+      <input type="text" v-model="inputTitle" id = "title"> 
+
     </div>
     
 </template>
@@ -29,7 +31,6 @@ const bookData = ref(null)
 
 onMounted(() => {
   fetchData(API)
-  AOS.init()
 })
 
 </script>
