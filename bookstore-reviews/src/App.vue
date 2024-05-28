@@ -1,5 +1,5 @@
 <template>
-  <header>
+  <header v-if="isLoggedIn">
     <div class="wrapper">
       <nav>
         <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
@@ -14,10 +14,7 @@
       </nav>
     </div>
   </header>
-  <div class="container" style="padding: 50px 0 100px 0">
-    <Account v-if="session" :session="session" />
-    <Auth v-else />
-  </div>
+  <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
 </template>
 
@@ -28,8 +25,6 @@ import 'aos/dist/aos.css'
 AOS.init()
 
 import { onMounted, ref } from 'vue'
-import Account from './components/Account.vue'
-import Auth from './components/Auth.vue'
 import { supabase } from '@/lib/supabaseClient'
 
 const session = ref()

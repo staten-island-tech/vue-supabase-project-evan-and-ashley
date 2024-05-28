@@ -5,13 +5,19 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/Auth'
     },
     {
-      path: '/login',
-      name: 'login',
+      path: '/Auth',
+      name: 'Auth',
       //@ts-ignore
       component: () => import('../components/Auth.vue')
+    },
+    {
+      path: '/SignUp',
+      name: 'SignUp',
+      //@ts-ignore
+      component: () => import('../components/SignUp.vue')
     },
     {
       path: '/profile',
