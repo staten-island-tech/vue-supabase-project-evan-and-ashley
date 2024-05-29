@@ -1,20 +1,15 @@
 <template>
-  <header v-if="isLoggedIn">
-    <div class="wrapper">
+  <div class="wrapper">
       <nav>
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
-          >Explore</RouterLink
-        >
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
-          >Explore</RouterLink
-        >
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+        <RouterLink to="/explore" 
           >Explore</RouterLink
         >
       </nav>
-      </div>
+    </div>
+  <header v-if="isLoggedIn">
   </header>
-
+  <div class="container" style="padding: 50px 0 100px 0"></div>
+  <RouterView />
 </template>
 
 <script setup>
