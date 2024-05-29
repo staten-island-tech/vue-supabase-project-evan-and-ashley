@@ -6,7 +6,7 @@ const loading = ref(false)
 const email = ref('')
 const password = ref('')
 
-const handleLogin = async () => {
+const handleSignUp = async () => {
   try {
     loading.value = true
     const { error } = await supabase.auth.signUp({
@@ -26,7 +26,8 @@ const handleLogin = async () => {
 </script>
 
 <template>
-  <form class="row flex-center flex" @submit.prevent="handleLogin">
+  <RouterLink to="/" data-aos="slide-left" data-aos-duration="1000">Go Back</RouterLink>
+  <form class="row flex-center flex" @submit.prevent="handleSignUp">
     <div class="col-6 form-widget">
       <h1 class="header">Bookstore Reviews</h1>
       <p class="description">Create Your Account</p>
@@ -46,7 +47,7 @@ const handleLogin = async () => {
         <input
           type="submit"
           class="button block"
-          :value="loading ? 'Loading' : 'Send magic link'"
+          :value="loading ? 'Loading' : 'Sign Up'"
           :disabled="loading"
         />
       </div>
