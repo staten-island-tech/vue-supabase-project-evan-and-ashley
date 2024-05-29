@@ -26,7 +26,8 @@ const handleSignUp = async () => {
 </script>
 
 <template>
-  <form class="row flex-center flex" @submit.prevent="handleLogin">
+  <RouterLink to="/" data-aos="slide-left" data-aos-duration="1000">Go Back</RouterLink>
+  <form class="row flex-center flex" @submit.prevent="handleSignUp">
     <div class="col-6 form-widget">
       <h1 class="header">Bookstore Reviews</h1>
       <p class="description">Create Your Account</p>
