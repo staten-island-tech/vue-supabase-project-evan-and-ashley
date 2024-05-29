@@ -12,7 +12,7 @@ import { ref, onMounted, computed } from 'vue'
 const inputTitle = ref('')
 const bookData = ref(null)
 const errorMessage = ref(null)
-const API = computed(() => `https://openlibrary.org/search.json?title=${inputTitle.value}`)
+const API = computed(() => `https://openlibrary.org/search.json?title=${inputTitle.value}&limit=20`)
 
 async function fetchData() {
   if (inputTitle.value.length === 0) {
