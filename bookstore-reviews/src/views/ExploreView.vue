@@ -3,12 +3,17 @@
       <label> Search book by title: </label>
       <input type="text" v-model="inputTitle" id = "title"> 
       <button @click="fetchData">Search</button>
-
+      <div class = "all-cards">
+        <MainCard v-for="(cause, index) in bookData" :key="index" :book="book" />
+      
+    </div>
     </div>
     
 </template>
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import MainCard from '@/components/MainCard.vue'
+
 const inputTitle = ref('')
 const bookData = ref(null)
 const errorMessage = ref(null)
@@ -35,6 +40,7 @@ async function fetchData() {
     errorMessage.value = 'An error occurred while making the API request.'
   }
 }
+
 
 
 onMounted(() => {
