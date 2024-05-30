@@ -1,18 +1,12 @@
 <template>
-  <header v-if="isLoggedIn">
-    <div class="wrapper">
+  <div class="wrapper">
       <nav>
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
-          >Explore</RouterLink
-        >
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
-          >Explore</RouterLink
-        >
-        <RouterLink to="/explore" data-aos="slide-left" data-aos-duration="1000"
+        <RouterLink to="/explore" 
           >Explore</RouterLink
         >
       </nav>
     </div>
+  <header v-if="isLoggedIn">
   </header>
   <header v-else></header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
@@ -40,6 +34,24 @@ onMounted(() => {
   })
 })
 </script>
+
+<style scoped>
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  display: inline;
+  float: left;
+}
+
+a {
+  display: block;
+  padding: 8px;
+  background-color: #dddddd;
+}
+</style>
 
 <!--   
 import { RouterLink, RouterView } from 'vue-router'
