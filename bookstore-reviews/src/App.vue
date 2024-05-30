@@ -14,6 +14,7 @@
       </nav>
     </div>
   </header>
+  <header v-else></header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
 </template>

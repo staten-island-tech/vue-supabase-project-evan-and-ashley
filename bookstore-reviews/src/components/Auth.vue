@@ -32,6 +32,7 @@ import { supabase } from '@/lib/supabaseClient'
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
+const isLoggedIn = ref(false)
 
 const handleLogin = async () => {
   try {
@@ -48,6 +49,7 @@ const handleLogin = async () => {
     }
   } finally {
     loading.value = false
+    isLoggedIn.value = true
   }
 }
 </script>
