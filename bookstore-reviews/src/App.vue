@@ -1,14 +1,14 @@
 <template>
-  <div class="wrapper">
+  <header v-if="isLoggedIn">
+    <div class="wrapper">
       <nav>
-        <RouterLink to="/explore" 
-          >Explore</RouterLink
-        >
+        <RouterLink to="/explore">Explore</RouterLink>
       </nav>
     </div>
-  <header v-if="isLoggedIn">
   </header>
-  <header v-else></header>
+  <header v-else>
+    <div>asdfasdf</div>
+  </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
 </template>

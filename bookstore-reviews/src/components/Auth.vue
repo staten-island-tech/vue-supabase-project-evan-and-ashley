@@ -18,6 +18,7 @@
           class="button block"
           :value="loading ? 'Loading' : 'Login'"
           :disabled="loading"
+          :on-click="handleLogin"
         />
       </div>
     </div>
