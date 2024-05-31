@@ -45,6 +45,15 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       //@ts-ignore
       component: () => import('../views/ExploreView.vue')
+    }, 
+    {
+      path: '/bookData/:id',
+      name: 'bookData',
+      // route level code-splitting
+      // this generates a separate chunk (About.[hash].js) for this route
+      // which is lazy-loaded when the route is visited.
+      //@ts-ignore
+      component: () => import('../views/BookData.vue')
     }
   ]
 })

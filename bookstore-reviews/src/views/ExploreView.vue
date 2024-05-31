@@ -4,8 +4,8 @@
       <input type="text" v-model="inputTitle" id = "title"> 
       <button @click="fetchData">Search</button>
       <div class = "all-cards">
-        <MainCard v-for="(cause, index) in bookData" :key="index" :book="book" />
-      
+        <MainCard v-for="(book, index) in justBooks" :key="index" :book="book"/> 
+
     </div>
     </div>
     
@@ -16,6 +16,7 @@ import MainCard from '@/components/MainCard.vue'
 
 const inputTitle = ref('')
 const bookData = ref(null)
+const justBooks = ref(null)
 const errorMessage = ref(null)
 const API = computed(() => `https://openlibrary.org/search.json?title=${inputTitle.value}&limit=20`)
 
@@ -27,10 +28,13 @@ async function fetchData() {
 
   try {
     bookData.value = null
+    justBooks.value = null
     const res = await fetch(API.value)
     if (res.status >= 200 && res.status < 300) {
       bookData.value = await res.json()
-      console.log(bookData.value)
+      justBooks.value = bookData.value.docs
+      // console.log(bookData.value)
+      console.log(justBooks.value)
       errorMessage.value = null
     } else {
       throw new Error(res.statusText)
