@@ -29,8 +29,8 @@ const key = ref("")
 onMounted(() => {
 coverId.value = props.book.cover_i; 
 link.value = `https://covers.openlibrary.org/b/id/${coverId.value}-L.jpg`
-tempKey.value = props.book.tempKey;
-key.value
+tempKey.value = props.book.key;
+key.value = tempKey.value.slice(7)
 console.log(coverId.value)
 console.log(link.value); 
 console.log(key.value)
@@ -39,7 +39,7 @@ console.log(key.value)
 const bookPath = computed(()=> {
   return `/bookData/${key.value}`
 })
-
+console.log(bookPath)
 </script>
 
 <style scoped>
