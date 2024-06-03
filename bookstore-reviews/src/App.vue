@@ -3,11 +3,13 @@
     <div class="wrapper">
       <nav>
         <RouterLink to="/explore">Explore</RouterLink>
+        <RouterLink to="/profile">Profile</RouterLink>
       </nav>
     </div>
   </header>
   <header v-else>
-    <div>asdfasdf</div>
+    <div>Welcome To Bookstore Reviews</div>
+    <div>Sign in or Make an Account</div>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />

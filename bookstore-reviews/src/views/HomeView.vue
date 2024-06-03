@@ -1,25 +1,8 @@
 <template>
-  <div>
-    <div>
-      <form name="login-form" @submit.prevent="login">
-        <div>
-          <label for="username">Username: </label>
-          <input id="username" type="text" v-model="username" />
-        </div>
-        <div>
-          <label for="password">Password: </label>
-          <input id="password" type="password" v-model="password" />
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- import books to exploreview and setup home ui in app.vue
-  HomeView will have user's saved books and personal library
-  ExploreView will have every book with comments and ratings -->
+  <div>This is your personal library</div>
 </template>
 
 <script setup lang="ts">
-
 import { ref } from 'vue'
 
 const username = ref('')
@@ -43,8 +26,6 @@ async function login() {
     console.error(error)
   }
 }
-
-
 </script>
 
 <style scoped></style>
