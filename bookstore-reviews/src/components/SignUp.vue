@@ -21,6 +21,7 @@ const handleSignUp = async () => {
     }
   } finally {
     loading.value = false
+    isLoggedIn.value = true
   }
 }
 </script>

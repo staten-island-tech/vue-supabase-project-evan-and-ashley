@@ -21,6 +21,8 @@ AOS.init()
 
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
+import { userAuthStore } from '@/stores/authStore'
+const { isLoggedIn } = userAuthStore()
 
 const session = ref()
 
@@ -52,37 +54,3 @@ a {
   background-color: #dddddd;
 }
 </style>
-
-<!--   
-import { RouterLink, RouterView } from 'vue-router'
-import Account from '/components/Account.vue'
-import Auth from './components/Auth.vue'  -->
-
-<!-- // const profiles = ref([])
-
-// async function getProfiles() {
-//   const { data, error } = await supabase.from('user_profile').select()
-//   if (error) {
-//     console.error(error)
-//   } else {
-//     profiles.value = data
-//   }
-// }
-
-// const session = ref()
-// onMounted(() => {
-//   supabase.auth.getSession().then(({ data }) => {
-//     session.value = data.session
-//   })
-
-//   supabase.auth.onAuthStateChange((_, _session) => {
-//     session.value = _session
-//   })
-// })
-
-// onMounted(async () => {
-//   await getProfiles()
-// })
-</script>
-
-<style scoped></style> -->

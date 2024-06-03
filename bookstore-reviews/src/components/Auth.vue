@@ -29,11 +29,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
+import { userAuthStore } from '@/stores/authStore'
 
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
-const isLoggedIn = ref(false)
+
+const { isLoggedIn } = userAuthStore()
 
 const handleLogin = async () => {
   try {
