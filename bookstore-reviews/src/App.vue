@@ -1,4 +1,5 @@
 <template>
+  
   <header v-if="isLoggedIn">
     <div class="wrapper">
       <nav>
