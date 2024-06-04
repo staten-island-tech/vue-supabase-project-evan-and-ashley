@@ -1,17 +1,17 @@
 <template>
-    <div>
-      <label> Search book by title: </label>
-      <input type="text" v-model="inputTitle" id = "title"> 
-      <button @click="fetchData">Search</button>
-      <div class = "all-cards">
-        <MainCard v-for="(book, index) in justBooks" :key="index" :book="book"/> 
-
+  <div v-if="isLoggedIn">
+    <label> Search book by title: </label>
+    <input type="text" v-model="inputTitle" id="title" />
+    <button @click="fetchData">Search</button>
+    <div class="all-cards">
+      <MainCard v-for="(book, index) in justBooks" :key="index" :book="book" />
     </div>
-    </div>
-    
+  </div>
 </template>
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import { userAuthStore } from '@/stores/authStore'
+const { isLoggedIn } = userAuthStore()
 import MainCard from '@/components/MainCard.vue'
 
 const inputTitle = ref('')
@@ -45,14 +45,9 @@ async function fetchData() {
   }
 }
 
-
-
 onMounted(() => {
   fetchData(API.value)
 })
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

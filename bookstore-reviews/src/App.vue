@@ -1,5 +1,4 @@
 <template>
-  
   <header v-if="isLoggedIn">
     <div class="wrapper">
       <nav>
@@ -11,8 +10,7 @@
   </header>
   <header v-else>
     <div>Welcome To Bookstore Reviews</div>
-    <div>Sign in or Make an Account</div>
-    <RouterLink to="/">You've Been Logged Out (Go Back to Sign In Page)</RouterLink>
+    <RouterLink to="/">Sign in or Make an Account </RouterLink>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
