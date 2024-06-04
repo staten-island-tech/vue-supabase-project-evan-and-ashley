@@ -5,12 +5,13 @@
         <RouterLink to="/home">Home</RouterLink>
         <RouterLink to="/explore">Explore</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
+        <button @click="signOut" :disabled="loading">Sign Out</button>
       </nav>
     </div>
   </header>
   <header v-else>
     <div>Welcome To Bookstore Reviews</div>
-    <RouterLink to="/">Sign in or Make an Account </RouterLink>
+    <RouterLink v-if="isSignedOut" to="/">Sign in or Make an Account </RouterLink>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
@@ -28,6 +29,22 @@ import { userAuthStore } from '@/stores/authStore'
 const { isLoggedIn } = userAuthStore()
 
 const session = ref()
+const isSignedOut = ref(false)
+const loading = ref(false)
+
+async function signOut() {
+  try {
+    loading.value = true
+    const { error } = await supabase.auth.signOut()
+    if (error) throw error
+  } catch (error) {
+    alert(error.message)
+  } finally {
+    loading.value = false
+    isSignedOut.value = true
+    isLoggedIn.value = false
+  }
+}
 
 onMounted(() => {
   supabase.auth.getSession().then(({ data }) => {
