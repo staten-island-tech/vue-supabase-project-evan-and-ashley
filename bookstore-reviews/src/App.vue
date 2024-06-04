@@ -2,6 +2,7 @@
   <header v-if="isLoggedIn">
     <div class="wrapper">
       <nav>
+        <RouterLink to="/home">Home</RouterLink>
         <RouterLink to="/explore">Explore</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
       </nav>
@@ -10,6 +11,7 @@
   <header v-else>
     <div>Welcome To Bookstore Reviews</div>
     <div>Sign in or Make an Account</div>
+    <RouterLink to="/">You've Been Logged Out (Go Back to Sign In Page)</RouterLink>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
@@ -32,10 +34,10 @@ onMounted(() => {
   supabase.auth.getSession().then(({ data }) => {
     session.value = data.session
   })
+})
 
-  supabase.auth.onAuthStateChange((_, _session) => {
-    session.value = _session
-  })
+supabase.auth.onAuthStateChange((_, _session) => {
+  session.value = _session
 })
 </script>
 
