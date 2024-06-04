@@ -2,6 +2,7 @@
     <div>
         <h1> book info</h1>
         <h1>{{ works.title }}</h1>
+        <img :src="link" />
         <p>{{ works.description }}</p>
 
         <h2> Leave Review for the book</h2>
@@ -30,6 +31,8 @@ import { supabase } from '@/lib/supabaseClient'
 const rating = ref('')
 const comment = ref('')
 let works = ref('');
+const link = ref("")
+
 let loaded = false
 const API = computed(() => `https://openlibrary.org/works/${route.params.id}.json`);
 const route = useRoute();
@@ -39,8 +42,6 @@ const user = ref ('');
 //no paramter herE?
 async function fetchData() {
     try {
-
-
         const res = await fetch(`https://openlibrary.org/works/${route.params.id}.json`)
         if (res.status >= 200 && res.status < 300) {
             works.value = await res.json()
@@ -61,21 +62,39 @@ async function fetchData() {
 async function submitReview() {
     if (rating.value && comment.value) {
         try {
-            const { data, error } = await supabase
-                .from('review')
+            // const { data: reviewData, error: reviewError } = await supabase
+            //     .from('review')
+            //     .insert([
+            //         {
+            //             book: works.value.key,
+            //             // user: user.value,
+            //             rating: parseInt(rating.value),
+            //             comment: comment.value,
+            //         }
+            //     ]);
+            // if (reviewError) {
+            //     console.log(reviewError);
+            // } else {
+            //     console.log('Review submitted successfully')
+            // }
+            const { data: bookData, error: bookError } = await supabase
+                .from('books')
                 .insert([
-                    {
-                        book: works.value.key,
-                        user: user.value,
-                        rating: parseInt(rating.value),
-                        comment: comment.value,
-                    }
+                {
+                       book_id: works.value.key,
+                       title: works.value.title,
+                       description: works.value.description,
+                       cover_id: works.value.covers[0],
+                    //    created_at: new Date()
+                   }
+
                 ]);
-            if (error) {
-                console.log(error);
+            if (bookError) {
+                console.log(bookError);
             } else {
-                console.log('Review submitted successfully')
+                console.log('book updated')
             }
+            
         } catch (error) {
             console.log(error)
         }
@@ -96,6 +115,7 @@ async function getCurrentUser (){
 
 onMounted(async () => {
     await fetchData() //paramater here
+    link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
     const currentUser = await getCurrentUser (); 
     if (currentUser) {
    user.value = currentUser;
