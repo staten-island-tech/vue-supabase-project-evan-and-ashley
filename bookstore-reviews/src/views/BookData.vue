@@ -85,17 +85,25 @@ async function submitReview() {
 }
 
 async function getCurrentUser (){
-    const { user, error } = await supabase.auth.getUser(); 
+    const { user, error } = await supabase.auth.getUser();
     if (error) {
         console.log(error);
         return null
     }
+    console.log(user)
     return user; 
 }
 
 onMounted(async () => {
     await fetchData() //paramater here
-    user.value = await getCurrentUser (); 
+    const currentUser = await getCurrentUser (); 
+    if (currentUser) {
+   user.value = currentUser;
+    console.log('User updated:', user.value); // <--- Add this line
+ } else {
+   console.log('User is not logged in');
+ }
+    
 })
 </script>
 
