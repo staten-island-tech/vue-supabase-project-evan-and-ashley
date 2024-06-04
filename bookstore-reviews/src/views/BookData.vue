@@ -2,7 +2,8 @@
     <div>
         <h1> book info</h1>
           <h1  >{{ works.title }}</h1>
-         <p >{{ works.description }}</p>  
+         <p >{{ works.description }}</p> 
+          
         <h2> Leave Review for the book</h2>
         <label for="rating"> Rating: </label>
         <select id="rating" v-model="rating">
@@ -43,6 +44,7 @@ async function fetchData() {
             works.value = await res.json()
             // console.log(bookData.value)
             console.log(works)
+            console.log(works.value.key)
             errorMessage.value = null
         } else {
             throw new Error(res.statusText)
