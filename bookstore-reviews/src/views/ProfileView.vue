@@ -1,11 +1,13 @@
 <template>
   <header v-if="sessionStore().session.isLoggedIn">
     <h2>This is Your Profile</h2>
-    <div>Username:</div>
-    <div>Email:</div>
-    <div>Bio:</div>
-    <div>Full Name:</div>
-    <button type="submit">Edit Profile</button>
+    <div v-if="!isEditing">
+      <div>Username: {{ profile.username }}</div>
+      <div>Email: {{ profile.email }}</div>
+      <div>Bio: {{ profile.bio }}</div>
+      <div>Full Name: {{ profile.full_name }}</div>
+    </div>
+    <button type="button" @click="isEditing = true">Edit Profile</button>
     <form @submit.prevent="updateProfile">
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="profile.username" />
@@ -32,14 +34,17 @@ import { sessionStore } from '@/stores/authStore'
 const profile = ref({
   username: '',
   email: '',
-  bio: ''
+  bio: '',
+  full_name: ''
 })
+
+const isEditing = ref(false)
 
 onMounted(async () => {
   if (sessionStore().session.isLoggedIn) {
     const { data, error } = await supabase
       .from('profiles')
-      .select('username, bio, email')
+      .select('username, bio, email, full_name')
       .eq('id', sessionStore().session.user.id)
       .single()
     if (error) {
@@ -59,6 +64,7 @@ async function updateProfile() {
       console.error(error)
     } else {
       console.log('Profile updated successfully!')
+      isEditing.value = false
     }
   }
 }
