@@ -10,7 +10,7 @@
       </nav>
     </div>
   </header>
-  <header v-else>
+  <header v-if="!isLoggedIn">
     <div>Welcome To Bookstore Reviews</div>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
