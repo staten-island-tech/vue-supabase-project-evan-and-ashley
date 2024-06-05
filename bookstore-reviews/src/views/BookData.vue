@@ -1,21 +1,11 @@
 <template>
   <div>
-    <h1>book info</h1>
-    <h1>{{ works.title }}</h1>
+    <h1> book info</h1>
+    <h2>{{ works.title }}</h2>
     <img :src="link" />
     <p>{{ works.description }}</p>
 
-    <ul v-if="reviewComments.length > 0">
-      <li v-for="(review, index) in reviewComments" :key="index">
-        <p>Rating: {{ review.rating }} / 5</p>
-        <p>Comment: {{ review.comment }}</p>
-        <p>By: {{ review.username }}</p>
-      </li>
-    </ul>
-    <p v-else>No reviews yet!</p>
-
-
-    <h2>Leave Review for the book</h2>
+    <h2> Leave Review for the book</h2>
     <label for="rating"> Rating: </label>
     <select id="rating" v-model="rating">
       <option value="1">1</option>
@@ -28,8 +18,19 @@
     <label for="comment">Comment: </label>
     <textarea id="comment" v-model="comment"></textarea>
 
-
     <button type="submit" @click="submitReview">Submit Review</button>
+
+    <h2> REVIEWS</h2>
+    <h2>Book Rating: {{ avgRating }}</h2>
+    <ul v-if="reviewComments.length > 0">
+      <li v-for="(review, index) in reviewComments" :key="index">
+        <p>Rating: {{ review.rating }} / 5</p>
+        <p>Comment: {{ review.comment }}</p>
+        <p>By: {{ review.username }}</p>
+      </li>
+    </ul>
+    <p v-else>No reviews yet!</p>
+
   </div>
 </template>
 
@@ -47,9 +48,11 @@ let loaded = false
 const API = computed(() => `https://openlibrary.org/works/${route.params.id}.json`)
 const route = useRoute()
 const errorMessage = ref(null)
-const loading = ref(true)
-const user = ref('')
-const reviewComments = ref ('')
+const loading = ref(true);
+// const user = ref(sessionStore.session.user.id)
+const reviewComments = ref([]);
+const avgRating = ref(null)
+
 //no paramter herE?
 async function fetchData() {
   try {
@@ -117,29 +120,72 @@ async function submitReview() {
   }
 }
 
-async function getCurrentUser() {
-  const { user, error } = await supabase.auth.getUser()
-  if (error) {
-    console.log(error)
-    return null
-  }
-  console.log(user)
-  return 
-  user
-}
+// async function getCurrentUser() {
+//     const { user, error } = await supabase.auth.getUser();
+//     if (error) {
+//         console.log(error);
+//         return null
+//     }
+//     console.log(user)
+//     return user;
+// }
+
+
+
+// this is for if the function was written here 
+// async function getComments() {
+//     const {data, error} =await supabase 
+//     .from('reviews')
+//     .select('users(username), comment, rating')
+//     .innerJoin('users', 'reviews.user_id = users.id')
+//     .eq('book_id', works.value.key)
+//     if (error) {
+//         console.log(error)
+//     }else{
+//         reviewComments.value =data
+//         console.log(reviewComments)
+//     }
+// }
 
 async function getComments() {
-    const { data: commentsData, error: commentsError } = await supabase.rpc('get_book_review', {
+    const { data: commentsData, error: commnetsError } = await supabase.rpc('get_book_review', {
         book_id: works.value.key,
-        
     });
-    if (commentsError) {
-        console.log(commentsError);
+
+    if (commnetsError) {
+        console.log(commnetsError);
     } else {
         reviewComments.value = commentsData;
         console.log(reviewComments);
     }
+
 }
+
+async function getRating() {
+  const { data: ratingData, error:ratingError } = await supabase.rpc('get_book_rating', {
+    p_book_id: works.value.key,
+  });
+  if (ratingError) {
+    console.log(ratingError);
+  } else {
+    avgRating.value = ratingData[0].avg_rating
+    console.log(avgRating.value);
+  }
+}
+
+onMounted(async () => {
+    await fetchData() //paramater here
+    link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
+    await getComments(); 
+    await getRating(); 
+})
+    // const currentUser = await getCurrentUser();
+    // if (currentUser) {
+    //     user.value = currentUser;
+    //     console.log('User updated:', user.value);
+    // } else {
+    //     console.log('User is not logged in');
+    // }
 
 // async function getComments() {
 //   console.log('getComments called');
@@ -154,18 +200,18 @@ async function getComments() {
 //   }
 // }
 
-onMounted(async () => {
-  await fetchData() //paramater here
-  link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
-  const currentUser = await getCurrentUser()
-  getComments (); 
-  if (currentUser) {
-    user.value = currentUser
-    console.log('User updated:', user.value)
-  } else {
-    console.log('User is not logged in')
-  }
-})
+// onMounted(async () => {
+//   await fetchData() //paramater here
+//   link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
+//   const currentUser = await getCurrentUser()
+//   getComments (); 
+//   if (currentUser) {
+//     user.value = currentUser
+//     console.log('User updated:', user.value)
+//   } else {
+//     console.log('User is not logged in')
+//   }
+// })
 </script>
 
 <style lang="scss" scoped></style>
