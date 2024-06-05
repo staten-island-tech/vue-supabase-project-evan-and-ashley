@@ -55,7 +55,7 @@ const handleLogin = async () => {
     if (error) throw error
     const userData = data
     alert('Check your email for the login link!')
-    console.log(userData)
+    sessionStore().session.user.id = userData.user.id
     return userData
   } catch (error) {
     if (error instanceof Error) {
