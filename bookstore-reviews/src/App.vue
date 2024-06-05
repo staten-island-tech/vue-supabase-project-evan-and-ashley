@@ -11,7 +11,6 @@
   </header>
   <header v-else>
     <div>Welcome To Bookstore Reviews</div>
-    <RouterLink v-if="isSignedOut" to="/">Sign in or Make an Account </RouterLink>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
@@ -29,7 +28,6 @@ import { userAuthStore } from '@/stores/authStore'
 const { isLoggedIn } = userAuthStore()
 
 const session = ref()
-const isSignedOut = ref(false)
 const loading = ref(false)
 
 async function signOut() {
@@ -41,7 +39,6 @@ async function signOut() {
     alert(error.message)
   } finally {
     loading.value = false
-    isSignedOut.value = true
     isLoggedIn.value = false
   }
 }
