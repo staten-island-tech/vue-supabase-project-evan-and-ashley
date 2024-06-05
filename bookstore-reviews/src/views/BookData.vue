@@ -30,15 +30,25 @@
       </li>
     </ul>
     <p v-else>No reviews yet!</p>
+    <p>User 2: {{ session }}</p>
+
 
   </div>
 </template>
 
 <script setup lang="ts">
+
 import { onMounted, ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { supabase } from '@/lib/supabaseClient'
+import { storeToRefs } from 'pinia'
+import { sessionStore } from '@/stores/authStore'
 
+const authStore = sessionStore()
+const { session } = storeToRefs(authStore)
+const user = ref(session.value.user.id)
+console.log(user)
+// const user = ref(session.value.user.id)
 const rating = ref('')
 const comment = ref('')
 let works = ref('')
@@ -49,7 +59,6 @@ const API = computed(() => `https://openlibrary.org/works/${route.params.id}.jso
 const route = useRoute()
 const errorMessage = ref(null)
 const loading = ref(true);
-// const user = ref(sessionStore.session.user.id)
 const reviewComments = ref([]);
 const avgRating = ref(null)
 
@@ -77,7 +86,7 @@ async function submitReview() {
       const { data: reviewData, error: reviewError } = await supabase.from('review').insert([
         {
           book: works.value.key,
-          // user: user.value,
+          user: user.value,
           rating: parseInt(rating.value),
           comment: comment.value
         }
@@ -119,33 +128,6 @@ async function submitReview() {
     alert('Please fill in all fields')
   }
 }
-
-// async function getCurrentUser() {
-//     const { user, error } = await supabase.auth.getUser();
-//     if (error) {
-//         console.log(error);
-//         return null
-//     }
-//     console.log(user)
-//     return user;
-// }
-
-
-
-// this is for if the function was written here 
-// async function getComments() {
-//     const {data, error} =await supabase 
-//     .from('reviews')
-//     .select('users(username), comment, rating')
-//     .innerJoin('users', 'reviews.user_id = users.id')
-//     .eq('book_id', works.value.key)
-//     if (error) {
-//         console.log(error)
-//     }else{
-//         reviewComments.value =data
-//         console.log(reviewComments)
-//     }
-// }
 
 async function getComments() {
     const { data: commentsData, error: commnetsError } = await supabase.rpc('get_book_review', {
