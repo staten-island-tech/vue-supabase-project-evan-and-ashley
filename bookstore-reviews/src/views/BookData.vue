@@ -45,7 +45,6 @@ async function fetchData() {
         const res = await fetch(`https://openlibrary.org/works/${route.params.id}.json`)
         if (res.status >= 200 && res.status < 300) {
             works.value = await res.json()
-            // console.log(bookData.value)
             console.log(works)
             console.log(works.value.key)
             errorMessage.value = null
@@ -72,7 +71,7 @@ async function submitReview() {
                         comment: comment.value,
                     }
                 ]);
-                console.log(reviewData)
+            console.log(reviewData)
             if (reviewError) {
                 console.log(reviewError);
             } else {
@@ -83,13 +82,12 @@ async function submitReview() {
                 .from('books')
                 .select('cover_id')
                 .eq('cover_id', works.value.covers[0])
-                // .single()
             if (existingBook.length > 0) {
                 console.log(existingBook)
-            } 
+            }
             else if (existingBookError) {
                 console.log(existingBookError)
-            } 
+            }
             else {
                 const { data: bookData, error: bookError } = await supabase
                     .from('books')
@@ -99,7 +97,6 @@ async function submitReview() {
                             title: works.value.title,
                             description: works.value.description,
                             cover_id: works.value.covers[0],
-                            //    created_at: new Date()
                         }
 
                     ]);
@@ -134,7 +131,7 @@ onMounted(async () => {
     const currentUser = await getCurrentUser();
     if (currentUser) {
         user.value = currentUser;
-        console.log('User updated:', user.value); // <--- Add this line
+        console.log('User updated:', user.value);
     } else {
         console.log('User is not logged in');
     }
