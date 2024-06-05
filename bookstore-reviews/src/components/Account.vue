@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, toRefs } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 

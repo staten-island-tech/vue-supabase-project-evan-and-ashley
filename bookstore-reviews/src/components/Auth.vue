@@ -1,5 +1,5 @@
 <template>
-  <header v-if="!isLoggedIn">
+  <header v-if="!sessionStore().isLoggedIn">
     <form class="row flex-center flex" @submit.prevent="handleLogin">
       <div class="col-6 form-widget">
         <h1 class="header">Sign in</h1>
@@ -38,14 +38,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-import { userAuthStore } from '@/stores/authStore'
+import { sessionStore } from '@/stores/authStore'
 import router from '@/router'
 
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
-
-const { isLoggedIn } = userAuthStore()
 
 const handleLogin = async () => {
   try {
@@ -62,7 +60,7 @@ const handleLogin = async () => {
     }
   } finally {
     loading.value = false
-    isLoggedIn.value = true
+    sessionStore().isLoggedIn = true
     router.push('/home')
   }
 }
