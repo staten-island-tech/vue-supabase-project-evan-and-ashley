@@ -5,6 +5,7 @@
         <RouterLink to="/home">Home</RouterLink>
         <RouterLink to="/explore">Explore</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
+        <RouterLink to="/reviewed">Reviewed Books</RouterLink>
       </nav>
     </div>
   </header>

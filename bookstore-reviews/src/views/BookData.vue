@@ -38,7 +38,7 @@ const API = computed(() => `https://openlibrary.org/works/${route.params.id}.jso
 const route = useRoute();
 const errorMessage = ref(null)
 const loading = ref(true);
-const user = ref (''); 
+const user = ref('');
 //no paramter herE?
 async function fetchData() {
     try {
@@ -62,39 +62,54 @@ async function fetchData() {
 async function submitReview() {
     if (rating.value && comment.value) {
         try {
-            // const { data: reviewData, error: reviewError } = await supabase
-            //     .from('review')
-            //     .insert([
-            //         {
-            //             book: works.value.key,
-            //             // user: user.value,
-            //             rating: parseInt(rating.value),
-            //             comment: comment.value,
-            //         }
-            //     ]);
-            // if (reviewError) {
-            //     console.log(reviewError);
-            // } else {
-            //     console.log('Review submitted successfully')
-            // }
-            const { data: bookData, error: bookError } = await supabase
-                .from('books')
+            const { data: reviewData, error: reviewError } = await supabase
+                .from('review')
                 .insert([
-                {
-                       book_id: works.value.key,
-                       title: works.value.title,
-                       description: works.value.description,
-                       cover_id: works.value.covers[0],
-                    //    created_at: new Date()
-                   }
-
+                    {
+                        book: works.value.key,
+                        // user: user.value,
+                        rating: parseInt(rating.value),
+                        comment: comment.value,
+                    }
                 ]);
-            if (bookError) {
-                console.log(bookError);
+                console.log(reviewData)
+            if (reviewError) {
+                console.log(reviewError);
             } else {
-                console.log('book updated')
+                console.log('Review submitted successfully')
             }
-            
+
+            const { data: existingBook, error: existingBookError } = await supabase
+                .from('books')
+                .select('cover_id')
+                .eq('cover_id', works.value.covers[0])
+                // .single()
+            if (existingBook.length > 0) {
+                console.log(existingBook)
+            } 
+            else if (existingBookError) {
+                console.log(existingBookError)
+            } 
+            else {
+                const { data: bookData, error: bookError } = await supabase
+                    .from('books')
+                    .insert([
+                        {
+                            book_id: works.value.key,
+                            title: works.value.title,
+                            description: works.value.description,
+                            cover_id: works.value.covers[0],
+                            //    created_at: new Date()
+                        }
+
+                    ]);
+                if (bookError) {
+                    console.log(bookError);
+                } else {
+                    console.log('book updated')
+                }
+            }
+
         } catch (error) {
             console.log(error)
         }
@@ -103,27 +118,27 @@ async function submitReview() {
     }
 }
 
-async function getCurrentUser (){
+async function getCurrentUser() {
     const { user, error } = await supabase.auth.getUser();
     if (error) {
         console.log(error);
         return null
     }
     console.log(user)
-    return user; 
+    return user;
 }
 
 onMounted(async () => {
     await fetchData() //paramater here
     link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
-    const currentUser = await getCurrentUser (); 
+    const currentUser = await getCurrentUser();
     if (currentUser) {
-   user.value = currentUser;
-    console.log('User updated:', user.value); // <--- Add this line
- } else {
-   console.log('User is not logged in');
- }
-    
+        user.value = currentUser;
+        console.log('User updated:', user.value); // <--- Add this line
+    } else {
+        console.log('User is not logged in');
+    }
+
 })
 </script>
 
