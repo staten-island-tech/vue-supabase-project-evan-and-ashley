@@ -10,14 +10,14 @@
       </nav>
     </div>
   </header>
-  <header v-else>
+  <header v-if="!sessionStore().isLoggedIn">
     <div>Welcome To Bookstore Reviews</div>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import AOS from 'aos'
 import 'aos/dist/aos.css'

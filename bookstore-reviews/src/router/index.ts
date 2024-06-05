@@ -27,7 +27,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       //@ts-ignore
-      component: () => import('../views/ProfileView.vue')
+      component: () => import('../views/ProfileView.vue'),
+      meta: { requireLogin: true }
     },
     {
       path: '/home',
@@ -36,7 +37,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       //@ts-ignore
-      component: () => import('../views/HomeView.vue')
+      component: () => import('../views/HomeView.vue'),
+      meta: { requireLogin: true }
     },
     {
       path: '/explore',
@@ -45,7 +47,8 @@ const router = createRouter({
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       //@ts-ignore
-      component: () => import('../views/ExploreView.vue')
+      component: () => import('../views/ExploreView.vue'),
+      meta: { requireLogin: true }
     },
     {
       path: '/bookData/:id',
@@ -69,8 +72,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (sessionStore().isLoggedIn === false) {
-    next('/')
+  if (
+    !['/', '/login'] &&
+    to.matched.some((record) => record.meta.requireLogin) &&
+    !sessionStore().isLoggedIn
+  ) {
+    next({ path: '/Auth' })
   } else {
     next()
   }
