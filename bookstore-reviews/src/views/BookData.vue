@@ -5,6 +5,16 @@
     <img :src="link" />
     <p>{{ works.description }}</p>
 
+    <ul v-if="reviewComments.length > 0">
+      <li v-for="(review, index) in reviewComments" :key="index">
+        <p>Rating: {{ review.rating }} / 5</p>
+        <p>Comment: {{ review.comment }}</p>
+        <p>By: {{ review.username }}</p>
+      </li>
+    </ul>
+    <p v-else>No reviews yet!</p>
+
+
     <h2>Leave Review for the book</h2>
     <label for="rating"> Rating: </label>
     <select id="rating" v-model="rating">
@@ -17,6 +27,7 @@
 
     <label for="comment">Comment: </label>
     <textarea id="comment" v-model="comment"></textarea>
+
 
     <button type="submit" @click="submitReview">Submit Review</button>
   </div>
@@ -38,6 +49,7 @@ const route = useRoute()
 const errorMessage = ref(null)
 const loading = ref(true)
 const user = ref('')
+const reviewComments = ref ('')
 //no paramter herE?
 async function fetchData() {
   try {
@@ -112,13 +124,41 @@ async function getCurrentUser() {
     return null
   }
   console.log(user)
-  return user
+  return 
+  user
 }
+
+async function getComments() {
+    const { data: commentsData, error: commentsError } = await supabase.rpc('get_book_review', {
+        book_id: works.value.key,
+        
+    });
+    if (commentsError) {
+        console.log(commentsError);
+    } else {
+        reviewComments.value = commentsData;
+        console.log(reviewComments);
+    }
+}
+
+// async function getComments() {
+//   console.log('getComments called');
+//   try {
+//     let { data: review, error } = await supabase
+//      .from('review')
+//      .select('book')
+//      .eq('book', works.value.key);
+//     console.log(review)
+//   } catch (error) {
+//     console.error('Error in getComments:', error);
+//   }
+// }
 
 onMounted(async () => {
   await fetchData() //paramater here
   link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
   const currentUser = await getCurrentUser()
+  getComments (); 
   if (currentUser) {
     user.value = currentUser
     console.log('User updated:', user.value)
