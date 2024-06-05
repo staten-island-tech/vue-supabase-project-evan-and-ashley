@@ -2,13 +2,16 @@
   <header v-if="sessionStore().session.isLoggedIn">
     <h2>This is Your Profile</h2>
     <div v-if="!isEditing">
+      <div>Full Name: {{ profile.full_name }}</div>
       <div>Username: {{ profile.username }}</div>
       <div>Email: {{ profile.email }}</div>
       <div>Bio: {{ profile.bio }}</div>
-      <div>Full Name: {{ profile.full_name }}</div>
+      <button type="button" @click="isEditing = true">Edit Profile</button>
     </div>
-    <button type="button" @click="isEditing = true">Edit Profile</button>
-    <form @submit.prevent="updateProfile">
+    <form v-if="isEditing" @submit.prevent="updateProfile">
+      <label for="full-name">Full Name:</label>
+      <input type="text" id="full-name" v-model="profile.full_name" />
+      <br />
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="profile.username" />
       <br />
@@ -18,7 +21,8 @@
       <label for="bio">Bio:</label>
       <textarea id="bio" v-model="profile.bio" />
       <br />
-      <button type="submit">Update Profile</button>
+      <button type="submit" @click="updateProfile()">Update Profile</button>
+      <button type="submit" @click="isEditing = false">Back</button>
     </form>
   </header>
   <header v-if="!sessionStore().session.isLoggedIn">
@@ -59,11 +63,17 @@ async function updateProfile() {
   if (sessionStore().session.isLoggedIn) {
     const { data, error } = await supabase
       .from('profiles')
-      .update({ id: sessionStore().session.user.id, ...profile.value })
+      .update({
+        username: profile.value.username,
+        bio: profile.value.bio,
+        email: profile.value.email,
+        full_name: profile.value.full_name
+      })
+      .eq('id', sessionStore().session.user.id)
     if (error) {
       console.error(error)
     } else {
-      console.log('Profile updated successfully!')
+      alert('Profile updated successfully!')
       isEditing.value = false
     }
   }

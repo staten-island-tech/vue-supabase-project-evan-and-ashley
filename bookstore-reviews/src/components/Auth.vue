@@ -54,7 +54,7 @@ const handleLogin = async () => {
     })
     if (error) throw error
     const userData = data
-    alert('Check your email for the login link!')
+    alert('Successfully Logged in!')
     sessionStore().session.user.id = userData.user.id
     return userData
   } catch (error) {

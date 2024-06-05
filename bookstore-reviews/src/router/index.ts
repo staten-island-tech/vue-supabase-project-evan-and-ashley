@@ -75,7 +75,7 @@ router.beforeEach((to, from, next) => {
   if (
     !['/', '/login'] &&
     to.matched.some((record) => record.meta.requireLogin) &&
-    !sessionStore().isLoggedIn
+    !sessionStore().session.isLoggedIn
   ) {
     next({ path: '/Auth' })
   } else {
