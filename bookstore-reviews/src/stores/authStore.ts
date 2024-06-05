@@ -1,9 +1,8 @@
+import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-const isLoggedIn = ref(false)
+export const sessionStore = defineStore('session', () => {
+  const isLoggedIn = ref(false)
 
-export function userAuthStore() {
-  return {
-    isLoggedIn
-  }
-}
+  return { isLoggedIn }
+})

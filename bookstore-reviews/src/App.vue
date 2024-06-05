@@ -1,5 +1,5 @@
 <template>
-  <header v-if="isLoggedIn">
+  <header v-if="sessionStore().isLoggedIn">
     <div class="wrapper">
       <nav>
         <RouterLink to="/home">Home</RouterLink>
@@ -7,7 +7,6 @@
         <RouterLink to="/profile">Profile</RouterLink>
         <RouterLink to="/reviewed">Reviewed Books</RouterLink>
         <button @click="signOut" :disabled="loading">Sign Out</button>
-
       </nav>
     </div>
   </header>
@@ -26,8 +25,7 @@ AOS.init()
 
 import { onMounted, ref } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
-import { userAuthStore } from '@/stores/authStore'
-const { isLoggedIn } = userAuthStore()
+import { sessionStore } from './stores/authStore'
 
 const session = ref()
 const loading = ref(false)

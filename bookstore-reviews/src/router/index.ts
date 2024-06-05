@@ -1,3 +1,4 @@
+import { sessionStore } from '@/stores/authStore'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -45,7 +46,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       //@ts-ignore
       component: () => import('../views/ExploreView.vue')
-    }, 
+    },
     {
       path: '/bookData/:id',
       name: 'bookData',
@@ -54,7 +55,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       //@ts-ignore
       component: () => import('../views/BookData.vue')
-    }, 
+    },
     {
       path: '/reviewed',
       name: 'reviewed',
@@ -65,6 +66,14 @@ const router = createRouter({
       component: () => import('../views/ReviewedView.vue')
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  if (sessionStore().isLoggedIn === false) {
+    next('/')
+  } else {
+    next()
+  }
 })
 
 export default router

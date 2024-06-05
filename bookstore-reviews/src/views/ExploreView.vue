@@ -1,5 +1,6 @@
 <template>
-  <div v-if="isLoggedIn">
+  <div v-if="sessionStore().isLoggedIn">
+    <div>Search Up Books and Leave Reviews</div>
     <label> Search book by title: </label>
     <input type="text" v-model="inputTitle" id="title" />
     <button @click="fetchData">Search</button>
@@ -7,12 +8,11 @@
       <MainCard v-for="(book, index) in justBooks" :key="index" :book="book" />
     </div>
   </div>
-  <RouterLink v-if="!isLoggedIn" to="/">Sign in or Make an Account </RouterLink>
+  <RouterLink v-if="!sessionStore().isLoggedIn" to="/">Sign in or Make an Account </RouterLink>
 </template>
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import { userAuthStore } from '@/stores/authStore'
-const { isLoggedIn } = userAuthStore()
+import { sessionStore } from '@/stores/authStore'
 import MainCard from '@/components/MainCard.vue'
 
 const inputTitle = ref('')

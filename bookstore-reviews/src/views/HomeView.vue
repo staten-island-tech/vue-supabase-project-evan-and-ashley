@@ -1,13 +1,12 @@
 <template>
-  <header v-if="isLoggedIn">
+  <header v-if="sessionStore().isLoggedIn">
     <div>This is your personal library</div>
   </header>
-  <RouterLink v-if="!isLoggedIn" to="/">Sign in or Make an Account </RouterLink>
+  <RouterLink v-if="!sessionStore().isLoggedIn" to="/">Sign in or Make an Account </RouterLink>
 </template>
 
 <script setup lang="ts">
-import { userAuthStore } from '@/stores/authStore'
-const { isLoggedIn } = userAuthStore()
+import { sessionStore } from '@/stores/authStore'
 </script>
 
 <style scoped></style>
