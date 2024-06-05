@@ -40,10 +40,11 @@ async function signOut() {
     alert(error.message)
   } finally {
     loading.value = false
-  //  sessionStore.$patch({
-  //     isLoggedIn: false,
-  //     userId: '',
-  // })
+    //  sessionStore.$patch({
+    //     isLoggedIn: false,
+    //     userId: '',
+    // })
+  }
 }
 
 onMounted(() => {

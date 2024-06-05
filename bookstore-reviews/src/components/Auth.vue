@@ -44,7 +44,6 @@ import router from '@/router'
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
-const userData = ref()
 
 const handleLogin = async () => {
   try {
@@ -56,6 +55,7 @@ const handleLogin = async () => {
     if (error) throw error
     const userData = data
     alert('Check your email for the login link!')
+    console.log(userData)
     return userData
   } catch (error) {
     if (error instanceof Error) {
@@ -64,7 +64,6 @@ const handleLogin = async () => {
   } finally {
     loading.value = false
     sessionStore().session.isLoggedIn = true
-    sessionStore().session.user.id = userData.user.id
     router.push('/home')
   }
 }
