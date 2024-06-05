@@ -1,9 +1,10 @@
 <template>
     <div>
         <h1> book info</h1>
-          <h1  >{{ works.title }}</h1>
-         <p >{{ works.description }}</p> 
-          
+        <h1>{{ works.title }}</h1>
+        <img :src="link" />
+        <p>{{ works.description }}</p>
+
         <h2> Leave Review for the book</h2>
         <label for="rating"> Rating: </label>
         <select id="rating" v-model="rating">
@@ -17,7 +18,7 @@
         <label for="comment">Comment: </label>
         <textarea id="comment" v-model="comment"></textarea>
 
-        <button type ="submit">Submit Review</button>
+        <button type="submit" @click="submitReview">Submit Review</button>
 
     </div>
 </template>
@@ -25,24 +26,25 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { supabase } from '@/lib/supabaseClient'
 
 const rating = ref('')
 const comment = ref('')
 let works = ref('');
+const link = ref("")
+
 let loaded = false
 const API = computed(() => `https://openlibrary.org/works/${route.params.id}.json`);
 const route = useRoute();
 const errorMessage = ref(null)
 const loading = ref(true);
+const user = ref('');
 //no paramter herE?
 async function fetchData() {
     try {
-        
-       
         const res = await fetch(`https://openlibrary.org/works/${route.params.id}.json`)
         if (res.status >= 200 && res.status < 300) {
             works.value = await res.json()
-            // console.log(bookData.value)
             console.log(works)
             console.log(works.value.key)
             errorMessage.value = null
@@ -53,12 +55,87 @@ async function fetchData() {
         console.log(error)
         errorMessage.value = 'An error occurred while making the API request.'
     }
-    
+
 }
 
-onMounted(async() => {
-   await  fetchData() //paramater here
-    
+async function submitReview() {
+    if (rating.value && comment.value) {
+        try {
+            const { data: reviewData, error: reviewError } = await supabase
+                .from('review')
+                .insert([
+                    {
+                        book: works.value.key,
+                        // user: user.value,
+                        rating: parseInt(rating.value),
+                        comment: comment.value,
+                    }
+                ]);
+            console.log(reviewData)
+            if (reviewError) {
+                console.log(reviewError);
+            } else {
+                console.log('Review submitted successfully')
+            }
+
+            const { data: existingBook, error: existingBookError } = await supabase
+                .from('books')
+                .select('cover_id')
+                .eq('cover_id', works.value.covers[0])
+            if (existingBook.length > 0) {
+                console.log(existingBook)
+            }
+            else if (existingBookError) {
+                console.log(existingBookError)
+            }
+            else {
+                const { data: bookData, error: bookError } = await supabase
+                    .from('books')
+                    .insert([
+                        {
+                            book_id: works.value.key,
+                            title: works.value.title,
+                            description: works.value.description,
+                            cover_id: works.value.covers[0],
+                        }
+
+                    ]);
+                if (bookError) {
+                    console.log(bookError);
+                } else {
+                    console.log('book updated')
+                }
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    } else {
+        alert('Please fill in all fields')
+    }
+}
+
+async function getCurrentUser() {
+    const { user, error } = await supabase.auth.getUser();
+    if (error) {
+        console.log(error);
+        return null
+    }
+    console.log(user)
+    return user;
+}
+
+onMounted(async () => {
+    await fetchData() //paramater here
+    link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
+    const currentUser = await getCurrentUser();
+    if (currentUser) {
+        user.value = currentUser;
+        console.log('User updated:', user.value);
+    } else {
+        console.log('User is not logged in');
+    }
+
 })
 </script>
 
