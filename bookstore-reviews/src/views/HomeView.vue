@@ -1,8 +1,8 @@
 <template>
-  <header v-if="sessionStore().isLoggedIn">
+  <header v-if="sessionStore().session.isLoggedIn">
     <div>This is your personal library</div>
   </header>
-  <header v-if="!sessionStore().isLoggedIn">
+  <header v-if="!sessionStore().session.isLoggedIn">
     You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
   </header>
 </template>

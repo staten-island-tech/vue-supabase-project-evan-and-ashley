@@ -1,6 +1,11 @@
 <template>
-  <header v-if="sessionStore().isLoggedIn">
+  <header v-if="sessionStore().session.isLoggedIn">
     <h2>This is Your Profile</h2>
+    <div>Username:</div>
+    <div>Email:</div>
+    <div>Bio:</div>
+    <div>Full Name:</div>
+    <button type="submit">Edit Profile</button>
     <form @submit.prevent="updateProfile">
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="profile.username" />
@@ -14,14 +19,14 @@
       <button type="submit">Update Profile</button>
     </form>
   </header>
-  <header v-if="!sessionStore().isLoggedIn">
+  <header v-if="!sessionStore().session.isLoggedIn">
     You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
   </header>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { supabase } from '@/supabase'
+import { supabase } from '@/lib/supabaseClient'
 import { sessionStore } from '@/stores/authStore'
 
 const profile = ref({
@@ -31,11 +36,11 @@ const profile = ref({
 })
 
 onMounted(async () => {
-  if (sessionStore.isLoggedIn) {
+  if (sessionStore().session.isLoggedIn) {
     const { data, error } = await supabase
       .from('profiles')
-      .select('username, email, bio')
-      .eq('id', sessionStore.user.id)
+      .select('username, bio, email')
+      .eq('id', sessionStore().session.user.id)
       .single()
     if (error) {
       console.error(error)
@@ -46,10 +51,10 @@ onMounted(async () => {
 })
 
 async function updateProfile() {
-  if (sessionStore.isLoggedIn) {
+  if (sessionStore().session.isLoggedIn) {
     const { data, error } = await supabase
       .from('profiles')
-      .update({ id: sessionStore.user.id, ...profile.value })
+      .update({ id: sessionStore().session.user.id, ...profile.value })
     if (error) {
       console.error(error)
     } else {

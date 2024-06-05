@@ -1,5 +1,5 @@
 <template>
-  <div v-if="sessionStore().isLoggedIn">
+  <div v-if="sessionStore().session.isLoggedIn">
     <div>Search Up Books and Leave Reviews</div>
     <label> Search book by title: </label>
     <input type="text" v-model="inputTitle" id="title" />
@@ -8,7 +8,7 @@
       <MainCard v-for="(book, index) in justBooks" :key="index" :book="book" />
     </div>
   </div>
-  <header v-if="!sessionStore().isLoggedIn">
+  <header v-if="!sessionStore().session.isLoggedIn">
     You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
   </header>
 </template>

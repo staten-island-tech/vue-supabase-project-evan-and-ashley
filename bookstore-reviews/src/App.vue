@@ -1,5 +1,5 @@
 <template>
-  <header v-if="sessionStore().isLoggedIn">
+  <header v-if="sessionStore().session.isLoggedIn">
     <div class="wrapper">
       <nav>
         <RouterLink to="/home">Home</RouterLink>
@@ -10,7 +10,7 @@
       </nav>
     </div>
   </header>
-  <header v-if="!sessionStore().isLoggedIn">
+  <header v-if="!sessionStore().session.isLoggedIn">
     <div>Welcome To Bookstore Reviews</div>
   </header>
   <div class="container" style="padding: 50px 0 100px 0"></div>
@@ -33,14 +33,17 @@ const loading = ref(false)
 async function signOut() {
   try {
     loading.value = true
-    const { error } = await supabase.auth.signOut()
+    const { data, error } = await supabase.auth.signOut()
     if (error) throw error
+    return data
   } catch (error) {
     alert(error.message)
   } finally {
     loading.value = false
-    isLoggedIn.value = false
-  }
+  //  sessionStore.$patch({
+  //     isLoggedIn: false,
+  //     userId: '',
+  // })
 }
 
 onMounted(() => {

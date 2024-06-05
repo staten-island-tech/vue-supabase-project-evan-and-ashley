@@ -18,12 +18,10 @@ onMounted(() => {
 async function getProfile() {
   try {
     loading.value = true
-    const { user } = session.value
-
     const { data, error, status } = await supabase
       .from('profiles')
       .select(`username, bio, avatar_url`)
-      .eq('id', user.id)
+      .eq('id', session.value.user.id) // access user ID from session
       .single()
 
     if (error && status !== 406) throw error
@@ -43,10 +41,8 @@ async function getProfile() {
 async function updateProfile() {
   try {
     loading.value = true
-    const { user } = session.value
-
     const updates = {
-      id: user.id,
+      id: session.value.user.id, // access user ID from session
       username: username.value,
       bio: bio.value,
       avatar_url: avatar_url.value,
@@ -68,7 +64,7 @@ async function updateProfile() {
   <form class="form-widget" @submit.prevent="updateProfile">
     <div>
       <label for="email">Email</label>
-      <input id="email" type="text" :value="session.user.email" disabled />
+      <input id="email" type="text" :value="session.value.user.email" disabled />
     </div>
     <div>
       <label for="username">Name</label>
@@ -76,14 +72,14 @@ async function updateProfile() {
     </div>
     <div>
       <label for="biography">Bio</label>
-      <input id="biography" type="text" v-model="biography" />
+      <input id="biography" type="text" v-model="bio" />
     </div>
 
     <div>
       <input
         type="submit"
         class="button primary block"
-        :value="loading ? 'Loading ...' : 'Update'"
+        :value="loading ? 'Loading...' : 'Update'"
         :disabled="loading"
       />
     </div>

@@ -1,5 +1,5 @@
 <template>
-  <header v-if="!sessionStore().isLoggedIn">
+  <header v-if="!sessionStore().session.isLoggedIn">
     <form class="row flex-center flex" @submit.prevent="handleLogin">
       <div class="col-6 form-widget">
         <h1 class="header">Sign in</h1>
@@ -44,23 +44,27 @@ import router from '@/router'
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
+const userData = ref()
 
 const handleLogin = async () => {
   try {
     loading.value = true
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: email.value,
       password: password.value
     })
     if (error) throw error
+    const userData = data
     alert('Check your email for the login link!')
+    return userData
   } catch (error) {
     if (error instanceof Error) {
       alert(error.message)
     }
   } finally {
     loading.value = false
-    sessionStore().isLoggedIn = true
+    sessionStore().session.isLoggedIn = true
+    sessionStore().session.user.id = userData.user.id
     router.push('/home')
   }
 }
