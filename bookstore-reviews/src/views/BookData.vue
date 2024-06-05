@@ -19,7 +19,7 @@
         <textarea id="comment" v-model="comment"></textarea>
 
         <button type="submit" @click="submitReview">Submit Review</button>
-
+        
     </div>
 </template>
 
@@ -39,6 +39,8 @@ const route = useRoute();
 const errorMessage = ref(null)
 const loading = ref(true);
 const user = ref('');
+const reviewComments = ref([]);
+
 //no paramter herE?
 async function fetchData() {
     try {
@@ -125,16 +127,48 @@ async function getCurrentUser() {
     return user;
 }
 
+
+
+// this is for if the function was written here 
+// async function getComments() {
+//     const {data, error} =await supabase 
+//     .from('reviews')
+//     .select('users(username), comment, rating')
+//     .innerJoin('users', 'reviews.user_id = users.id')
+//     .eq('book_id', works.value.key)
+//     if (error) {
+//         console.log(error)
+//     }else{
+//         reviewComments.value =data
+//         console.log(reviewComments)
+//     }
+// }
+
+async function getComments() {
+    const { data: commentsData, error: commnetsError } = await supabase.rpc('get_book_review', {
+        book_id: works.value.key,
+    });
+
+    if (commnetsError) {
+        console.log(commnetsError);
+    } else {
+        reviewComments.value = commentsData;
+        console.log(reviewComments);
+    }
+
+}
+
 onMounted(async () => {
     await fetchData() //paramater here
     link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
-    const currentUser = await getCurrentUser();
-    if (currentUser) {
-        user.value = currentUser;
-        console.log('User updated:', user.value);
-    } else {
-        console.log('User is not logged in');
-    }
+    await getComments(); 
+    // const currentUser = await getCurrentUser();
+    // if (currentUser) {
+    //     user.value = currentUser;
+    //     console.log('User updated:', user.value);
+    // } else {
+    //     console.log('User is not logged in');
+    // }
 
 })
 </script>
