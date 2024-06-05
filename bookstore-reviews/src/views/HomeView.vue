@@ -2,7 +2,9 @@
   <header v-if="sessionStore().isLoggedIn">
     <div>This is your personal library</div>
   </header>
-  <RouterLink v-if="!sessionStore().isLoggedIn" to="/">Sign in or Make an Account </RouterLink>
+  <header v-if="!sessionStore().isLoggedIn">
+    You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
+  </header>
 </template>
 
 <script setup lang="ts">

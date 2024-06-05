@@ -8,7 +8,9 @@
       <MainCard v-for="(book, index) in justBooks" :key="index" :book="book" />
     </div>
   </div>
-  <RouterLink v-if="!sessionStore().isLoggedIn" to="/">Sign in or Make an Account </RouterLink>
+  <header v-if="!sessionStore().isLoggedIn">
+    You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
+  </header>
 </template>
 <script setup>
 import { ref, onMounted, computed } from 'vue'
