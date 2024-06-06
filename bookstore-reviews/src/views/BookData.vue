@@ -93,7 +93,7 @@ async function submitReview(): Promise<void> {
       if (reviewError) {
         console.log(reviewError)
       } else {
-        console.log('Review submitted successfully')
+        alert('Review submitted successfully')
       }
 
       const { data: existingBook, error: existingBookError } = await supabase
