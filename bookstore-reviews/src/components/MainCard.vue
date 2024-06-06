@@ -41,11 +41,12 @@ const key = ref<string>('')
 link.value = `https://covers.openlibrary.org/b/id/${props.book.cover_id}-L.jpg`
 key.value = props.book.key.slice(7)
 onMounted(() => {
-  //   coverId.value = props.book.cover_id
-  //   link.value = `https://covers.openlibrary.org/b/id/${coverId.value}-L.jpg`
-  //   tempKey.value = props.book.key
-  //   key.value = tempKey.value.slice(7)
-  //   console.log(coverId.value)
+  coverId.value = props.book.cover_i
+  link.value = `https://covers.openlibrary.org/b/id/${coverId.value}-L.jpg`
+  tempKey.value = props.book.key
+  key.value = tempKey.value.slice(7)
+  console.log(props.book)
+  console.log(coverId.value)
   console.log(link.value)
   console.log(key.value)
 })
@@ -86,22 +87,24 @@ img {
 }
 
 .card {
-  background-color: gray;
-  box-shadow:
-    0 0 0 1px rgba(#000, 0.05),
-    0 20px 50px 0 rgba(#000, 0.1);
+  background-color: white;
+  box-shadow: 0.5rem 0 0.5rem rgba(0, 0, 0, 0.25);
   border-radius: 15px;
+  width: 19rem;
   overflow: hidden;
   padding: 1.25rem;
   position: relative;
   transition: 0.15s ease-in;
-  align-items: center;
+  display: flex; /* add this */
+  flex-direction: column; /* add this */
+  align-items: center; /* add this */
+  text-align: center; /* add this */
+  margin-top: 2rem;
+  margin-left: 2rem;
 
   &:hover,
   &:focus-within {
-    box-shadow:
-      0 0 0 2px #16c79a,
-      0 10px 60px 0 rgba(#000, 0.1);
+    box-shadow: 0 0 0 2px #16c79a;
     transform: translatey(-5px);
   }
 }
@@ -109,89 +112,27 @@ img {
 .card-image {
   border-radius: 10px;
   overflow: hidden;
+  display: flex; /* add this */
+  justify-content: center; /* add this */
 }
-/* 
-.card-header {
-	margin-top: 1.5rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	a {
-		font-weight: 600;
-		font-size: 1.375rem;
-		line-height: 1.25;
-		padding-right: 1rem;
-		text-decoration: none;
-		color: inherit;
-		will-change: transform;
-		&:after {
-			content: "";
-			position: absolute;
-			left: 0;
-			top: 0;
-			right: 0;
-			bottom: 0;
-		}
-	}
-	
-	
+button {
+  display: inline-block;
+  outline: 0;
+  border: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 14px 24px 16px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  transition:
+    transform 200ms,
+    background 200ms;
+  background: transparent;
+  color: #000000;
+  box-shadow: 0 0 0 3px #000000 inset;
+  :hover {
+    transform: translateY(-2px);
+  }
 }
-
-.icon-button {
-	border: 0;
-	background-color: #fff;
-	border-radius: 50%;
-	width: 2.5rem;
-	height: 2.5rem;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-shrink: 0;
-	font-size: 1.25rem;
-	transition: .25s ease;
-	box-shadow: 0 0 0 1px rgba(#000, .05), 0 3px 8px 0 rgba(#000, .15);
-	z-index: 1;
-	cursor: pointer;
-	color: #565656;
-	
-	svg {
-		width: 1em;
-		height: 1em;
-	}
-	&:hover, &:focus {
-		background-color: #EC4646;
-		color: #FFF;
-	}
-}
-
-.card-footer {
-	margin-top: 1.25rem;
-	border-top: 1px solid #ddd;
-	padding-top: 1.25rem;
-	display: flex;
-	align-items: center;
-	flex-wrap: wrap;
-}
-
-.card-meta {	
-	display: flex;
-	align-items: center;
-	color: #787878;
-	&:first-child:after {
-		display: block;
-		content: "";
-		width: 4px;
-		height: 4px;
-		border-radius: 50%;
-		background-color: currentcolor;
-		margin-left: .75rem;
-		margin-right: .75rem;
-	}
-	svg {
-		flex-shrink: 0;
-		width: 1em;
-		height: 1em;
-		margin-right: .25em;
-	}
-} */
 </style>

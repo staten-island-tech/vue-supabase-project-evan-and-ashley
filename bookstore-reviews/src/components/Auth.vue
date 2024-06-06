@@ -4,16 +4,21 @@
       <div class="col-6 form-widget">
         <h1 class="header">Sign in</h1>
         <div>
+          <label for="email">Email
+          </label>
           <input
             class="inputField"
+            id ="email"
             required
             type="email"
             placeholder="Your email"
             v-model="email"
           />
         </div>
+        <label for = "password">password</label>
         <input
           class="inputField"
+          id ="password"
           required
           type="password"
           placeholder="Your password"
@@ -30,7 +35,7 @@
         </div>
       </div>
     </form>
-    <RouterLink to="/SignUp" data-aos="slide-left" data-aos-duration="1000">Sign Up</RouterLink>
+    <RouterLink to="/SignUp" data-aos="slide-left" data-aos-duration="1000" class="signup">Sign Up</RouterLink>
   </header>
   <header v-else></header>
 </template>
@@ -70,4 +75,8 @@ const handleLogin = async () => {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.signup{
+  color:black; 
+}
+</style>

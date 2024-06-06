@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h1>book info</h1>
     <h2>{{ works.title }}</h2>
-    <img :src="String(link)" />
+    <img :src="link" alt="book image" />
     <p>{{ works.description }}</p>
 
     <h2>Leave Review for the book</h2>
@@ -45,9 +44,8 @@ const authStore = sessionStore()
 const { session } = storeToRefs(authStore)
 const user = ref<SessionData['user']['id']>(session.value.user.id)
 console.log(user)
-
-const rating = ref<string>('')
-const comment = ref<string>('')
+const rating = ref('')
+const comment = ref('')
 let works = ref<Book>({
   key: '',
   title: '',
@@ -56,7 +54,6 @@ let works = ref<Book>({
 })
 const link = ref<String>('')
 
-let loaded = false
 const API = computed(() => `https://openlibrary.org/works/${route.params.id}.json`)
 const route = useRoute()
 const errorMessage = ref<string | null>(null)
@@ -172,39 +169,6 @@ onMounted(async () => {
   await getComments()
   await getRating()
 })
-// const currentUser = await getCurrentUser();
-// if (currentUser) {
-//     user.value = currentUser;
-//     console.log('User updated:', user.value);
-// } else {
-//     console.log('User is not logged in');
-// }
-
-// async function getComments() {
-//   console.log('getComments called');
-//   try {
-//     let { data: review, error } = await supabase
-//      .from('review')
-//      .select('book')
-//      .eq('book', works.value.key);
-//     console.log(review)
-//   } catch (error) {
-//     console.error('Error in getComments:', error);
-//   }
-// }
-
-// onMounted(async () => {
-//   await fetchData() //paramater here
-//   link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
-//   const currentUser = await getCurrentUser()
-//   getComments ();
-//   if (currentUser) {
-//     user.value = currentUser
-//     console.log('User updated:', user.value)
-//   } else {
-//     console.log('User is not logged in')
-//   }
-// })
 </script>
 
 <style lang="scss" scoped></style>
