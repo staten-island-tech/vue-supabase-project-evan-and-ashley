@@ -5,7 +5,6 @@
         <RouterLink to="/home">Home</RouterLink>
         <RouterLink to="/explore">Explore</RouterLink>
         <RouterLink to="/profile">Profile</RouterLink>
-        <RouterLink to="/reviewed">Reviewed Books</RouterLink>
         <button @click="signOut" :disabled="loading">Sign Out</button>
       </nav>
     </div>
