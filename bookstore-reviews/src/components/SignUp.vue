@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabaseClient'
 const loading = ref(false)
 const email = ref('')
 const password = ref('')
+const isLoggedIn = ref(false)
 
 const handleSignUp = async () => {
   try {
@@ -15,7 +16,7 @@ const handleSignUp = async () => {
     })
     if (error) throw error
     alert('Check your email for the login link!')
-  } catch (error) {
+  } catch (error: any) {
     if (error instanceof Error) {
       alert(error.message)
     }

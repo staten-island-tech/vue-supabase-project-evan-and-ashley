@@ -21,15 +21,19 @@
     You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
   </header>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { sessionStore } from '@/stores/authStore'
 import MainCard from '@/components/MainCard.vue'
 
+interface BookData {
+  docs: any[]
+}
+
 const inputTitle = ref('')
-const bookData = ref(null)
-const justBooks = ref(null)
-const errorMessage = ref(null)
+const bookData = ref<BookData | null>(null)
+const justBooks = ref<any[]>([])
+const errorMessage = ref(<string | null>null)
 const API = computed(() => `https://openlibrary.org/search.json?title=${inputTitle.value}&limit=20`)
 
 async function fetchData() {
@@ -40,11 +44,13 @@ async function fetchData() {
 
   try {
     bookData.value = null
-    justBooks.value = null
+    justBooks.value = []
     const res = await fetch(API.value)
     if (res.status >= 200 && res.status < 300) {
       bookData.value = await res.json()
-      justBooks.value = bookData.value.docs
+      if (bookData.value) {
+        justBooks.value = bookData.value.docs
+      }
       // console.log(bookData.value)
       console.log(justBooks.value)
       errorMessage.value = null
@@ -58,7 +64,7 @@ async function fetchData() {
 }
 
 onMounted(() => {
-  fetchData(API.value)
+  fetchData()
 })
 </script>
 

@@ -1,36 +1,45 @@
 <template>
   <article class="card">
-    <figure class="card-image"> 
-      <img :src="link" alt="image of book" />
+    <figure class="card-image">
+      <img :src="link" />
     </figure>
     <h1 class="card-header">
       {{ book.title }}
     </h1>
-    
+
     <router-link :to="bookPath">
-      <button class="icon-button" >Learn More</button>
+      <button class="icon-button">Learn More</button>
     </router-link>
   </article>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, type PropType } from 'vue'
 import { defineProps } from 'vue'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 AOS.init()
 
+interface Book {
+  cover_id: string
+  key: string
+  title: string
+}
+
 const props = defineProps({
-  book: Object
+  book: {
+    type: Object as PropType<Book>,
+    required: true
+  }
 })
 
-const coverId = ref('')
-const link = ref('')
-const tempKey = ref('')
-const key = ref('')
+const coverId = ref<string>('')
+const link = ref<string>('')
+const tempKey = ref<string>('')
+const key = ref<string>('')
 
 onMounted(() => {
-  coverId.value = props.book.cover_i
+  coverId.value = props.book.cover_id
   link.value = `https://covers.openlibrary.org/b/id/${coverId.value}-L.jpg`
   tempKey.value = props.book.key
   key.value = tempKey.value.slice(7)
@@ -46,23 +55,32 @@ console.log(bookPath)
 </script>
 
 <style scoped>
-
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap');
 
-*, *:after, *:before {
-	box-sizing: border-box;
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Lexend', sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #393232;
 }
 
 img {
-	max-width: 13rem;
-	display: block;
-  margin: auto; /* add this */
-
+  max-width: 13rem;
+  display: block;
 }
 
 .card-list {
-	width: 90%;
-	max-width: 400px;
+  width: 90%;
+  max-width: 400px;
 }
 
 .card {
