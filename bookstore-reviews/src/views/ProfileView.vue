@@ -58,18 +58,18 @@ onMounted(async () => {
     }
   }
 })
-
 async function updateProfile() {
   if (sessionStore().session.isLoggedIn) {
+    const updates = {
+      username: profile.value.username,
+      bio: profile.value.bio,
+      email: profile.value.email,
+      full_name: profile.value.full_name ?? ''
+    }
     const { data, error } = await supabase
       .from('profiles')
-      .update({
-        username: profile.value.username,
-        bio: profile.value.bio,
-        email: profile.value.email,
-        full_name: profile.value.full_name
-      })
-      .eq('id', sessionStore().session.user.id)
+      .update(updates)
+      .eq('user_id', sessionStore().session.user.id)
     if (error) {
       console.error(error)
     } else {
