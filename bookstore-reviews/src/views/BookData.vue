@@ -17,7 +17,7 @@
     <label for="comment">Comment: </label>
     <textarea id="comment" v-model="comment"></textarea>
 
-    <button type="submit" @click="submitReview()">Submit Review</button>
+    <button type="submit" @click="submitReview">Submit Review</button>
 
     <h2>REVIEWS</h2>
     <h2>Book Rating: {{ avgRating }}</h2>
@@ -62,23 +62,13 @@ const reviewComments = ref<ReviewCommentBook[]>([])
 const avgRating = ref<number | null>(null)
 
 //no paramter herE?
-
 async function fetchData(): Promise<void> {
   try {
     const res = await fetch(`https://openlibrary.org/works/${route.params.id}.json`)
     if (res.status >= 200 && res.status < 300) {
-      const data = await res.json()
-      console.log('Received data:', data)
-      works.value = data
-      console.log('works.value:', works.value)
+      works.value = await res.json()
+      console.log(works)
       errorMessage.value = null
-      if (works.value && works.value.covers && works.value.covers.length > 0) {
-        link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
-        console.log('link.value:', link.value)
-      } else {
-        link.value = '' // or some default value
-        console.log('No covers found')
-      }
     } else {
       throw new Error(res.statusText)
     }
@@ -103,7 +93,7 @@ async function submitReview(): Promise<void> {
       if (reviewError) {
         console.log(reviewError)
       } else {
-        alert('Review submitted successfully')
+        console.log('Review submitted successfully')
       }
 
       const { data: existingBook, error: existingBookError } = await supabase
@@ -122,7 +112,7 @@ async function submitReview(): Promise<void> {
             key: works.value.key,
             title: works.value.title,
             description: works.value.description,
-            cover_id: works.value.covers[0]
+            covers: works.value.covers[0]
           }
         ])
         if (bookError) {
@@ -165,7 +155,7 @@ async function getRating() {
 
 onMounted(async () => {
   await fetchData() //paramater here
-  // link.value = `https://covers.openlibrary.org/b/id/${works.value.cover_i[0]}-L.jpg`
+  link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
   await getComments()
   await getRating()
 })
