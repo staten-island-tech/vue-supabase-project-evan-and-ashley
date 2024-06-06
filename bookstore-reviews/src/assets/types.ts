@@ -6,3 +6,5 @@ export type SessionData = {
     username: string | undefined
   }
 }
+
+export type Book = {}

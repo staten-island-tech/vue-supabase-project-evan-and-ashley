@@ -1,14 +1,14 @@
 <template>
   <article class="card">
-    <figure class="card-image"> 
+    <figure class="card-image">
       <img :src="link" />
     </figure>
     <h1 class="card-header">
       {{ book.title }}
     </h1>
-    
+
     <router-link :to="bookPath">
-      <button class="icon-button" >Learn More</button>
+      <button class="icon-button">Learn More</button>
     </router-link>
   </article>
 </template>
@@ -46,52 +46,58 @@ console.log(bookPath)
 </script>
 
 <style scoped>
-
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;800;900&display=swap');
 
-*, *:after, *:before {
-	box-sizing: border-box;
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
 }
 
 body {
-	font-family: "Lexend", sans-serif;
-	line-height: 1.5;
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #393232;
+  font-family: 'Lexend', sans-serif;
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #393232;
 }
 
 img {
-	max-width: 13rem;
-	display: block;
+  max-width: 13rem;
+  display: block;
 }
 
 .card-list {
-	width: 90%;
-	max-width: 400px;
+  width: 90%;
+  max-width: 400px;
 }
 
 .card {
-	background-color: gray;
-  box-shadow: 0 0 0 1px rgba(#000, .05), 0 20px 50px 0 rgba(#000, .1);
-	border-radius: 15px;
-	overflow: hidden;
-	padding: 1.25rem;
-	position: relative;
-	transition: .15s ease-in;
+  background-color: gray;
+  box-shadow:
+    0 0 0 1px rgba(#000, 0.05),
+    0 20px 50px 0 rgba(#000, 0.1);
+  border-radius: 15px;
+  overflow: hidden;
+  padding: 1.25rem;
+  position: relative;
+  transition: 0.15s ease-in;
   align-items: center;
-	
-	&:hover, &:focus-within {
-		box-shadow: 0 0 0 2px #16C79A, 0 10px 60px 0 rgba(#000, .1);
-			transform: translatey(-5px);
-	}
+
+  &:hover,
+  &:focus-within {
+    box-shadow:
+      0 0 0 2px #16c79a,
+      0 10px 60px 0 rgba(#000, 0.1);
+    transform: translatey(-5px);
+  }
 }
 
 .card-image {
-	border-radius: 10px;
-	overflow: hidden;
+  border-radius: 10px;
+  overflow: hidden;
 }
 /* 
 .card-header {

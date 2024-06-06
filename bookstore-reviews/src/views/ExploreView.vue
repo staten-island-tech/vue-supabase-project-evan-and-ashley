@@ -12,7 +12,7 @@
     You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
   </header>
 </template>
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
 import { sessionStore } from '@/stores/authStore'
 import MainCard from '@/components/MainCard.vue'

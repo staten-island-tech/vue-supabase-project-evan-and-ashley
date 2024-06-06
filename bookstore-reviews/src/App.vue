@@ -27,14 +27,14 @@ import { supabase } from '@/lib/supabaseClient'
 import { sessionStore } from './stores/authStore'
 
 const session = ref()
-const loading = ref(false)
+const loading = ref<boolean>(false)
 
-async function signOut() {
+async function signOut(): Promise<void> {
   try {
     loading.value = true
     const { error } = await supabase.auth.signOut()
     if (error) throw error
-  } catch (error) {
+  } catch (error: any) {
     alert(error.message)
   } finally {
     loading.value = false

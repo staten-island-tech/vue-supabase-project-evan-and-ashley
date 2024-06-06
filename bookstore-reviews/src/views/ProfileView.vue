@@ -35,16 +35,23 @@ import { ref, onMounted } from 'vue'
 import { supabase } from '@/lib/supabaseClient'
 import { sessionStore } from '@/stores/authStore'
 
-const profile = ref({
+interface Profile {
+  username: string
+  email: string
+  bio: string
+  full_name: string
+}
+
+const profile = ref<Profile>({
   username: '',
   email: '',
   bio: '',
   full_name: ''
 })
 
-const isEditing = ref(false)
+const isEditing = ref<boolean>(false)
 
-let data = null
+let data: Profile | null = null
 
 onMounted(async () => {
   if (sessionStore().session.isLoggedIn) {
@@ -62,7 +69,7 @@ onMounted(async () => {
   }
 })
 
-async function updateProfile() {
+async function updateProfile(): Promise<void> {
   if (sessionStore().session.isLoggedIn) {
     const updates = {
       username: profile.value.username,
