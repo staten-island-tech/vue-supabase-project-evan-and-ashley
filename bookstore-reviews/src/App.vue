@@ -2,17 +2,29 @@
   <header v-if="sessionStore().session.isLoggedIn">
     <div class="wrapper">
       <nav>
-        <RouterLink to="/home">Home</RouterLink>
-        <RouterLink to="/explore">Explore</RouterLink>
-        <RouterLink to="/profile">Profile</RouterLink>
-        <button @click="signOut" :disabled="loading">Sign Out</button>
+        <ul>
+          <li>
+            <RouterLink to="/home">Home</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/explore">Explore</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="/profile">Profile</RouterLink>
+          </li>
+        </ul>
+        <div class="logo-container"> <!-- added this div -->
+          <img src='@/images/bookstore.png' alt="Bookhub logo"/>
+          <span class="website-name">BookHub</span>
+        </div>
       </nav>
+      <button @click="signOut" :disabled="loading" alt="sign out button">Sign Out</button>
+
     </div>
   </header>
   <header v-if="!sessionStore().session.isLoggedIn">
     <div>Welcome To Bookstore Reviews</div>
   </header>
-  <div class="container" style="padding: 50px 0 100px 0"></div>
   <RouterView />
 </template>
 
@@ -55,11 +67,12 @@ supabase.auth.onAuthStateChange((_, _session) => {
 </script>
 
 <style scoped>
-ul {
+/* ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
+
 li {
   display: inline;
   float: left;
@@ -69,5 +82,72 @@ a {
   display: block;
   padding: 8px;
   background-color: #dddddd;
-}
+} */
+
+.wrapper {
+    width: 100%;
+    box-sizing: border-box; /* make sure padding is included in width */
+  }
+
+  nav {
+    display: flex; /* make nav a flex container */
+    justify-content: space-between; /* distribute elements evenly */
+    align-items: center; /* center elements vertically */
+    background-color: #f5f5f5; /* add a background color to nav */
+    padding: 20px; /* add some padding to nav */
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex; /* make ul a flex container */
+  }
+
+  li {
+    margin-right: 20px; /* add some space between list items */
+    font-size: 2rem;
+  }
+
+  a {
+    display: block;
+    margin-left: 1rem;
+    background-color: #f5f5f5;
+        color: #333; /* add a text color to links */
+    text-decoration: none; /* remove underline from links */
+  }
+
+  /* Add this to add an image to the nav bar */
+  nav img {
+    width: 5rem; /* set image width */
+    height: 5rem; /* set image height */
+    margin-right: 10px; /* add some space between image and nav items */
+  }
+
+  /* Add this to style the sign out button */
+  button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #444;
+  }
+
+  .logo-container {
+   display: flex; /* added this to make logo and website name inline */
+   align-items: center; /* added this to center logo and website name vertically */
+ }
+
+ .website-name {
+   font-size: 3rem; /* added this to style the website name */
+    font-weight: bold; /* added this to style the website name */
+    margin-left: 10px; /* added this to add space between logo and website name */
+ }
+
+
 </style>

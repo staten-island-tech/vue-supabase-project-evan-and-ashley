@@ -1,7 +1,7 @@
 <template>
   <article class="card">
     <figure class="card-image"> 
-      <img :src="link" />
+      <img :src="link" alt="image of book" />
     </figure>
     <h1 class="card-header">
       {{ book.title }}
@@ -53,19 +53,11 @@ console.log(bookPath)
 	box-sizing: border-box;
 }
 
-body {
-	font-family: "Lexend", sans-serif;
-	line-height: 1.5;
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	color: #393232;
-}
-
 img {
 	max-width: 13rem;
 	display: block;
+  margin: auto; /* add this */
+
 }
 
 .card-list {
@@ -74,17 +66,24 @@ img {
 }
 
 .card {
-	background-color: gray;
-  box-shadow: 0 0 0 1px rgba(#000, .05), 0 20px 50px 0 rgba(#000, .1);
+	background-color: white;
+  box-shadow: 0.50rem 0 0.50rem rgba(0, 0, 0, 0.25);
 	border-radius: 15px;
+  width: 19rem;
 	overflow: hidden;
 	padding: 1.25rem;
 	position: relative;
 	transition: .15s ease-in;
-  align-items: center;
+  display: flex; /* add this */
+  flex-direction: column; /* add this */
+  align-items: center; /* add this */
+  text-align: center; /* add this */
+  margin-top: 2rem;
+  margin-left: 2rem;
+
 	
 	&:hover, &:focus-within {
-		box-shadow: 0 0 0 2px #16C79A, 0 10px 60px 0 rgba(#000, .1);
+		box-shadow: 0 0 0 2px #16C79A;
 			transform: translatey(-5px);
 	}
 }
@@ -92,6 +91,29 @@ img {
 .card-image {
 	border-radius: 10px;
 	overflow: hidden;
+  display: flex; /* add this */
+  justify-content: center; /* add this */
+
+}
+button{
+
+  display: inline-block;
+                outline: 0;
+                border: 0;
+                cursor: pointer;
+                border-radius: 8px;
+                padding: 14px 24px 16px;
+                font-size: 18px;
+                font-weight: 700;
+                line-height: 1;
+                transition: transform 200ms,background 200ms;
+                background: transparent;
+                color: #000000;
+                box-shadow: 0 0 0 3px #000000 inset;
+                :hover{
+                    transform: translateY(-2px);
+                }
+                
 }
 /* 
 .card-header {

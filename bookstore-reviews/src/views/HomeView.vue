@@ -1,12 +1,16 @@
 <template>
   <header v-if="sessionStore().session.isLoggedIn">
-    <div>This is your personal library</div>
+    <h1> Comments you have made: </h1>
     <div v-if="reviewComments.length > 0">
-      <div v-for="(review, index) in reviewComments" :key="index">
-        <img :src="`https://covers.openlibrary.org/b/id/${review.book_id}-L.jpg`" />
-        <h2>Tile: {{ review.book_title }}</h2>
+      <div v-for="(review, index) in reviewComments" :key="index" class="review">
+        <div class ='review-img'>
+          <img :src="`https://covers.openlibrary.org/b/id/${review.book_id}-L.jpg`" alt="'book image'" />
+        </div>
+        <div class="review-content"> 
+          <h2>Tile: {{ review.book_title }}</h2>
         <h2>Rating: {{ review.rating }}</h2>
         <h2>Comment: {{ review.comment }} </h2>
+        </div>
     </div>
     </div>
     
@@ -48,4 +52,20 @@ onMounted(async ()=>{
 
 </script>
 
-<style scoped></style>
+<style scoped>
+.review:not(:last-child) {
+ border-bottom: 1px solid #ccc; /* add the border to all reviews except the last one */
+}
+.review{
+  border-bottom: 1px solid gray; 
+  display: flex;
+  margin-top: 1rem ;
+}
+.review-content{
+  margin-left: 1rem;
+}
+img {
+	max-width: 5rem;
+	display: block;
+}
+</style>
