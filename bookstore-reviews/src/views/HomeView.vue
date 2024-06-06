@@ -2,7 +2,7 @@
   <header v-if="sessionStore().session.isLoggedIn">
     <h1> Comments you have made: </h1>
     <div v-if="reviewComments.length > 0">
-      <div v-for="(review, index) in reviewComments" :key="index" class="review">
+      <div v-for="(review, index) in reviewComments" :key="index" class="review"> 
         <div class ='review-img'>
           <img :src="`https://covers.openlibrary.org/b/id/${review.book_id}-L.jpg`" alt="'book image'" />
         </div>
@@ -13,6 +13,7 @@
         <button @click="removeComment(review.id)">Remove Comment</button>
       </div>
     </div>
+  </div>
   </header>
   <header v-if="!sessionStore().session.isLoggedIn">
     You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
