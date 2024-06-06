@@ -7,6 +7,7 @@
         <h2>Tile: {{ review.book_title }}</h2>
         <h2>Rating: {{ review.rating }}</h2>
         <h2>Comment: {{ review.comment }}</h2>
+        <button @click="removeComment(review.id)">Remove Comment</button>
       </div>
     </div>
   </header>
@@ -28,12 +29,12 @@ const user = ref<string>(session.value.user.id)
 const reviewComments = ref<ReviewCommentHome[]>([])
 
 async function getUserComments() {
-  const { data: commentsData, error: commnetsError } = await supabase.rpc('new_get_user_review', {
+  const { data: commentsData, error: commentsError } = await supabase.rpc('new_get_user_review', {
     current_user_id: user.value
   })
 
-  if (commnetsError) {
-    console.log(commnetsError)
+  if (commentsError) {
+    console.log(commentsError)
   } else {
     reviewComments.value = commentsData
     console.log(reviewComments)
@@ -43,6 +44,19 @@ async function getUserComments() {
 onMounted(async () => {
   await getUserComments()
 })
+
+async function removeComment(commentId: String) {
+  try {
+    const { error } = await supabase.from('review').delete().eq('id', commentId)
+    if (error) {
+      console.log(error)
+    } else {
+      reviewComments.value = reviewComments.value.filter((comment) => comment.id !== commentId)
+    }
+  } catch (error) {
+    console.log(error)
+  }
+}
 </script>
 
 <style scoped></style>

@@ -31,6 +31,7 @@ export type ReviewCommentBook = {
 
 export type ReviewCommentHome = {
   book_id: number
+  id: string
   length: number
   book_title: string
   rating: string
