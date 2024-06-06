@@ -54,6 +54,7 @@ const handleLogin = async () => {
     })
     if (error) throw error
     const userData = data
+    sessionStore().session.isLoggedIn = true
     alert('Successfully Logged in!')
     sessionStore().session.user.id = userData.user.id
     return userData
@@ -63,7 +64,7 @@ const handleLogin = async () => {
     }
   } finally {
     loading.value = false
-    sessionStore().session.isLoggedIn = true
+
     router.push('/home')
   }
 }
