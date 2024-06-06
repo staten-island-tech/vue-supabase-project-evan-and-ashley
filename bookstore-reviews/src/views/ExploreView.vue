@@ -1,6 +1,6 @@
 <template>
   <div v-if="sessionStore().session.isLoggedIn">
-    <div>Search Up Books and Leave Reviews</div>
+    <h2>Search Up Books and Leave Reviews</h2>
     <label> Search book by title: </label>
     <input type="text" v-model="inputTitle" id="title" />
     <button @click="fetchData">Search</button>
@@ -17,10 +17,14 @@ import { ref, onMounted, computed } from 'vue'
 import { sessionStore } from '@/stores/authStore'
 import MainCard from '@/components/MainCard.vue'
 
+interface BookData {
+  docs: any[]
+}
+
 const inputTitle = ref('')
-const bookData = ref(null)
-const justBooks = ref(null)
-const errorMessage = ref(null)
+const bookData = ref<BookData | null>(null)
+const justBooks = ref<any[]>([])
+const errorMessage = ref(<string | null>null)
 const API = computed(() => `https://openlibrary.org/search.json?title=${inputTitle.value}&limit=20`)
 
 async function fetchData() {
@@ -31,11 +35,13 @@ async function fetchData() {
 
   try {
     bookData.value = null
-    justBooks.value = null
+    justBooks.value = []
     const res = await fetch(API.value)
     if (res.status >= 200 && res.status < 300) {
       bookData.value = await res.json()
-      justBooks.value = bookData.value.docs
+      if (bookData.value) {
+        justBooks.value = bookData.value.docs
+      }
       // console.log(bookData.value)
       console.log(justBooks.value)
       errorMessage.value = null
@@ -49,7 +55,7 @@ async function fetchData() {
 }
 
 onMounted(() => {
-  fetchData(API.value)
+  fetchData()
 })
 </script>
 

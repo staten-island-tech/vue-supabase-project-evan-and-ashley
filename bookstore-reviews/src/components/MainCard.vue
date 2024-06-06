@@ -14,23 +14,32 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, type PropType } from 'vue'
 import { defineProps } from 'vue'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 AOS.init()
 
+interface Book {
+  cover_id: string
+  key: string
+  title: string
+}
+
 const props = defineProps({
-  book: Object
+  book: {
+    type: Object as PropType<Book>,
+    required: true
+  }
 })
 
-const coverId = ref('')
-const link = ref('')
-const tempKey = ref('')
-const key = ref('')
+const coverId = ref<string>('')
+const link = ref<string>('')
+const tempKey = ref<string>('')
+const key = ref<string>('')
 
 onMounted(() => {
-  coverId.value = props.book.cover_i
+  coverId.value = props.book.cover_id
   link.value = `https://covers.openlibrary.org/b/id/${coverId.value}-L.jpg`
   tempKey.value = props.book.key
   key.value = tempKey.value.slice(7)
