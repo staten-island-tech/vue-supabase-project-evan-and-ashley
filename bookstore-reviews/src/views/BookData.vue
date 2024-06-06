@@ -2,7 +2,7 @@
   <div>
     <h1>book info</h1>
     <h2>{{ works.title }}</h2>
-    <img :src="link.valueOf" />
+    <img :src="String(link)" />
     <p>{{ works.description }}</p>
 
     <h2>Leave Review for the book</h2>
@@ -18,7 +18,7 @@
     <label for="comment">Comment: </label>
     <textarea id="comment" v-model="comment"></textarea>
 
-    <button type="submit" @click="submitReview">Submit Review</button>
+    <button type="submit" @click="submitReview()">Submit Review</button>
 
     <h2>REVIEWS</h2>
     <h2>Book Rating: {{ avgRating }}</h2>
@@ -46,8 +46,8 @@ const { session } = storeToRefs(authStore)
 const user = ref<SessionData['user']['id']>(session.value.user.id)
 console.log(user)
 
-const rating = ref('')
-const comment = ref('')
+const rating = ref<string>('')
+const comment = ref<string>('')
 let works = ref<Book>({
   key: '',
   title: '',
@@ -65,13 +65,23 @@ const reviewComments = ref<ReviewCommentBook[]>([])
 const avgRating = ref<number | null>(null)
 
 //no paramter herE?
+
 async function fetchData(): Promise<void> {
   try {
     const res = await fetch(`https://openlibrary.org/works/${route.params.id}.json`)
     if (res.status >= 200 && res.status < 300) {
-      works.value = await res.json()
-      console.log(works)
+      const data = await res.json()
+      console.log('Received data:', data)
+      works.value = data
+      console.log('works.value:', works.value)
       errorMessage.value = null
+      if (works.value && works.value.covers && works.value.covers.length > 0) {
+        link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
+        console.log('link.value:', link.value)
+      } else {
+        link.value = '' // or some default value
+        console.log('No covers found')
+      }
     } else {
       throw new Error(res.statusText)
     }
@@ -96,7 +106,7 @@ async function submitReview(): Promise<void> {
       if (reviewError) {
         console.log(reviewError)
       } else {
-        console.log('Review submitted successfully')
+        alert('Review submitted successfully')
       }
 
       const { data: existingBook, error: existingBookError } = await supabase
@@ -115,7 +125,7 @@ async function submitReview(): Promise<void> {
             key: works.value.key,
             title: works.value.title,
             description: works.value.description,
-            covers: works.value.covers[0]
+            cover_id: works.value.covers[0]
           }
         ])
         if (bookError) {
@@ -158,7 +168,7 @@ async function getRating() {
 
 onMounted(async () => {
   await fetchData() //paramater here
-  link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
+  // link.value = `https://covers.openlibrary.org/b/id/${works.value.cover_i[0]}-L.jpg`
   await getComments()
   await getRating()
 })

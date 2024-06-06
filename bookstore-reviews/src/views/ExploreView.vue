@@ -3,7 +3,7 @@
     <h2>Search Up Books and Leave Reviews</h2>
     <label> Search book by title: </label>
     <input type="text" v-model="inputTitle" id="title" />
-    <button @click="fetchData">Search</button>
+    <button @click="fetchData()">Search</button>
     <div class="all-cards">
       <MainCard v-for="(book, index) in justBooks" :key="index" :book="book" />
     </div>
@@ -21,7 +21,7 @@ interface BookData {
   docs: any[]
 }
 
-const inputTitle = ref('')
+const inputTitle = ref<string>('')
 const bookData = ref<BookData | null>(null)
 const justBooks = ref<any[]>([])
 const errorMessage = ref(<string | null>null)
@@ -40,10 +40,14 @@ async function fetchData() {
     if (res.status >= 200 && res.status < 300) {
       bookData.value = await res.json()
       if (bookData.value) {
-        justBooks.value = bookData.value.docs
+        bookData.value.docs.forEach((book) => {
+          let link = ''
+          if (book.cover_i) {
+            link = `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`
+          }
+          justBooks.value.push({ ...book, link })
+        })
       }
-      // console.log(bookData.value)
-      console.log(justBooks.value)
       errorMessage.value = null
     } else {
       throw new Error(res.statusText)
@@ -53,7 +57,6 @@ async function fetchData() {
     errorMessage.value = 'An error occurred while making the API request.'
   }
 }
-
 onMounted(() => {
   fetchData()
 })

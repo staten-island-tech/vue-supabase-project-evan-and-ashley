@@ -33,17 +33,19 @@ const props = defineProps({
   }
 })
 
-const coverId = ref<string>('')
+// const coverId = ref<string>('')
+// const tempKey = ref<string>('')
 const link = ref<string>('')
-const tempKey = ref<string>('')
 const key = ref<string>('')
 
+link.value = `https://covers.openlibrary.org/b/id/${props.book.cover_id}-L.jpg`
+key.value = props.book.key.slice(7)
 onMounted(() => {
-  coverId.value = props.book.cover_id
-  link.value = `https://covers.openlibrary.org/b/id/${coverId.value}-L.jpg`
-  tempKey.value = props.book.key
-  key.value = tempKey.value.slice(7)
-  console.log(coverId.value)
+  //   coverId.value = props.book.cover_id
+  //   link.value = `https://covers.openlibrary.org/b/id/${coverId.value}-L.jpg`
+  //   tempKey.value = props.book.key
+  //   key.value = tempKey.value.slice(7)
+  //   console.log(coverId.value)
   console.log(link.value)
   console.log(key.value)
 })
