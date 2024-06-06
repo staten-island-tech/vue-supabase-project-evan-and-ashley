@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>{{ works.title }}</h2>
-    <img :src="link" alt="book image" />
+    <img :src="String(link)" alt="book image" />
     <p>{{ works.description }}</p>
 
     <h2>Leave Review for the book</h2>

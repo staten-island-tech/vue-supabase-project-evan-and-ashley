@@ -21,7 +21,7 @@ import 'aos/dist/aos.css'
 AOS.init()
 
 interface Book {
-  cover_id: string
+  cover_i: string
   key: string
   title: string
 }
