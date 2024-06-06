@@ -21,8 +21,8 @@
       <label for="bio">Bio:</label>
       <textarea id="bio" v-model="profile.bio" />
       <br />
-      <button type="submit" @click="updateProfile()">Update Profile</button>
-      <button type="submit" @click="isEditing = false">Back</button>
+      <button type="submit">Update Profile</button>
+      <button type="button" @click="isEditing = false">Back</button>
     </form>
   </header>
   <header v-if="!sessionStore().session.isLoggedIn">
@@ -44,20 +44,24 @@ const profile = ref({
 
 const isEditing = ref(false)
 
+let data = null
+
 onMounted(async () => {
   if (sessionStore().session.isLoggedIn) {
-    const { data, error } = await supabase
+    const { data: fetchData, error } = await supabase
       .from('profiles')
       .select('username, bio, email, full_name')
-      .eq('id', sessionStore().session.user.id)
+      .eq('user_id', sessionStore().session.user.id)
       .single()
     if (error) {
       console.error(error)
     } else {
+      data = fetchData
       profile.value = data
     }
   }
 })
+
 async function updateProfile() {
   if (sessionStore().session.isLoggedIn) {
     const updates = {
@@ -66,15 +70,28 @@ async function updateProfile() {
       email: profile.value.email,
       full_name: profile.value.full_name ?? ''
     }
-    const { data, error } = await supabase
-      .from('profiles')
-      .update(updates)
-      .eq('user_id', sessionStore().session.user.id)
-    if (error) {
-      console.error(error)
+
+    if (data != null) {
+      const { data: updateData, error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('user_id', sessionStore().session.user.id)
+      if (error) {
+        console.error(error)
+      } else {
+        alert('Profile updated successfully!')
+        isEditing.value = false
+      }
     } else {
-      alert('Profile updated successfully!')
-      isEditing.value = false
+      const { data: insertData, error } = await supabase
+        .from('profiles')
+        .insert({ ...updates, user_id: sessionStore().session.user.id })
+      if (error) {
+        console.error(error)
+      } else {
+        alert('Profile created successfully!')
+        isEditing.value = false
+      }
     }
   }
 }
