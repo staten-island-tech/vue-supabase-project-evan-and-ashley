@@ -1,9 +1,15 @@
 <template>
   <header v-if="sessionStore().session.isLoggedIn">
     <div>This is your personal library</div>
-    <div>
-      <h1>{{ user }}</h1>
+    <div v-if="reviewComments.length > 0">
+      <div v-for="(review, index) in reviewComments" :key="index">
+        <img :src="`https://covers.openlibrary.org/b/id/${review.book_id}-L.jpg`" />
+        <h2>Tile: {{ review.book_title }}</h2>
+        <h2>Rating: {{ review.rating }}</h2>
+        <h2>Comment: {{ review.comment }} </h2>
     </div>
+    </div>
+    
   </header>
   <header v-if="!sessionStore().session.isLoggedIn">
     You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
@@ -19,9 +25,11 @@ import { sessionStore } from '@/stores/authStore'
 const authStore = sessionStore()
 const { session } = storeToRefs(authStore)
 const user = ref(session.value.user.id)
+const reviewComments = ref([]);
+
 
 async function getUserComments() {
-    const { data: commentsData, error: commnetsError } = await supabase.rpc('get_user_review', {
+    const { data: commentsData, error: commnetsError } = await supabase.rpc('new_get_user_review', {
       current_user_id: user.value,
     });
 

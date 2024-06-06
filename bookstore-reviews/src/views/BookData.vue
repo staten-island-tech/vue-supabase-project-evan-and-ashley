@@ -30,8 +30,6 @@
       </li>
     </ul>
     <p v-else>No reviews yet!</p>
-    <p>User 2: {{ session }}</p>
-
 
   </div>
 </template>
