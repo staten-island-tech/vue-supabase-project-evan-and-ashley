@@ -84,7 +84,7 @@ async function fetchData() {
   }
 }
 
-async function submitReview(): Promise<void> {
+async function submitReview() {
   if (rating.value && comment.value) {
     try {
       const { data: reviewData, error: reviewError } = await supabase.from('review').insert([
