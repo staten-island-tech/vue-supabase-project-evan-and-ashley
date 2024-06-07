@@ -1,35 +1,41 @@
 <template>
-  <div>
-    <h2>{{ works.title }}</h2>
-    <img :src="String(link)" alt="book image" />
-    <p>{{ works.description }}</p>
+  <header v-if="sessionStore().session.isLoggedIn">
+    <div>
+      <h2>{{ works.title }}</h2>
+      <img :src="String(link)" alt="book image" />
+      <RouterLink to="/explore">Go back</RouterLink>
+      <p>{{ works.description }}</p>
 
-    <h2>Leave Review for the book</h2>
-    <label for="rating"> Rating: </label>
-    <select id="rating" v-model="rating">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-      <option value="5">5</option>
-    </select>
+      <h2>Leave Review for the book</h2>
+      <label for="rating"> Rating: </label>
+      <select id="rating" v-model="rating">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+      </select>
 
-    <label for="comment">Comment: </label>
-    <textarea id="comment" v-model="comment"></textarea>
+      <label for="comment">Comment: </label>
+      <textarea id="comment" v-model="comment"></textarea>
 
-    <button type="submit" @click="submitReview">Submit Review</button>
+      <button type="submit" @click="submitReview">Submit Review</button>
 
-    <h2>REVIEWS</h2>
-    <h2>Book Rating: {{ avgRating }}</h2>
-    <ul v-if="reviewComments.length > 0">
-      <li v-for="(review, index) in reviewComments" :key="index">
-        <p>Rating: {{ review.rating }} / 5</p>
-        <p>Comment: {{ review.comment }}</p>
-        <p>By: {{ review.username }}</p>
-      </li>
-    </ul>
-    <p v-else>No reviews yet!</p>
-  </div>
+      <h2>REVIEWS</h2>
+      <h2>Book Rating: {{ avgRating }}</h2>
+      <ul v-if="reviewComments.length > 0">
+        <li v-for="(review, index) in reviewComments" :key="index">
+          <p>Rating: {{ review.rating }} / 5</p>
+          <p>Comment: {{ review.comment }}</p>
+          <p>By: {{ review.username }}</p>
+        </li>
+      </ul>
+      <p v-else>No reviews yet!</p>
+    </div>
+  </header>
+  <header v-if="!sessionStore().session.isLoggedIn">
+    You have Been Logged out <RouterLink to="/">Sign in or Make an Account </RouterLink>
+  </header>
 </template>
 
 <script setup lang="ts">
@@ -62,7 +68,7 @@ const reviewComments = ref<ReviewCommentBook[]>([])
 const avgRating = ref<number | null>(null)
 
 //no paramter herE?
-async function fetchData(): Promise<void> {
+async function fetchData() {
   try {
     const res = await fetch(`https://openlibrary.org/works/${route.params.id}.json`)
     if (res.status >= 200 && res.status < 300) {
