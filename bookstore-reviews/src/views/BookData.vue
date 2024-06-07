@@ -128,7 +128,7 @@ async function submitReview() {
 }
 
 async function getComments() {
-    const { data: commentsData, error: commnetsError } = await supabase.rpc('get_book_review', {
+    const { data: commentsData, error: commnetsError } = await supabase.rpc('new_get_book_review', {
         book_id: works.value.key,
     });
 
@@ -159,39 +159,7 @@ onMounted(async () => {
     await getComments(); 
     await getRating(); 
 })
-    // const currentUser = await getCurrentUser();
-    // if (currentUser) {
-    //     user.value = currentUser;
-    //     console.log('User updated:', user.value);
-    // } else {
-    //     console.log('User is not logged in');
-    // }
-
-// async function getComments() {
-//   console.log('getComments called');
-//   try {
-//     let { data: review, error } = await supabase
-//      .from('review')
-//      .select('book')
-//      .eq('book', works.value.key);
-//     console.log(review)
-//   } catch (error) {
-//     console.error('Error in getComments:', error);
-//   }
-// }
-
-// onMounted(async () => {
-//   await fetchData() //paramater here
-//   link.value = `https://covers.openlibrary.org/b/id/${works.value.covers[0]}-L.jpg`
-//   const currentUser = await getCurrentUser()
-//   getComments (); 
-//   if (currentUser) {
-//     user.value = currentUser
-//     console.log('User updated:', user.value)
-//   } else {
-//     console.log('User is not logged in')
-//   }
-// })
+ 
 </script>
 
 <style lang="scss" scoped></style>
