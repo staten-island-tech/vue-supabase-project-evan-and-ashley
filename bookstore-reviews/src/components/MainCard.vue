@@ -1,11 +1,11 @@
 <template>
   <article class="card">
     <figure class="card-image">
-      <img :src="link" />
+      <img :src="link" alt ='book image'/>
     </figure>
-    <h1 class="card-header">
+    <h2 class="card-header">
       {{ book.title }}
-    </h1>
+    </h2>
 
     <router-link :to="bookPath">
       <button class="icon-button">Learn More</button>

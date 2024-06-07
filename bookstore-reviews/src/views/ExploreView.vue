@@ -2,7 +2,10 @@
   <div v-if="sessionStore().session.isLoggedIn">
     <div class="header-content">
       <div class="search">
-        <label class="label" for="title"> Search book</label>
+        <div class="label-container">
+          <label class="label" for="title"> Search book</label>
+        </div>
+        
         <input
           type="text"
           v-model="inputTitle"
@@ -13,7 +16,7 @@
         <button @click="fetchData" class="searchButton">search</button>
       </div>
     </div>
-    <div>Search Up Books and Leave Reviews</div>
+    <h2>Search Up Books and Leave Reviews</h2>
     <div class="all-cards">
       <MainCard v-for="(book, index) in justBooks" :key="index" :book="book" />
     </div>
@@ -128,5 +131,8 @@ onMounted(() => {
   margin-right: 10px; /* add some margin to separate from the input field */
   display: inline-block; /* make it an inline-block element */
   vertical-align: middle; /* align it vertically with the input field */
+}
+.label-container{
+  background-color: black;
 }
 </style>
