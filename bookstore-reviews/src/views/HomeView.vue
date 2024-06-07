@@ -43,8 +43,8 @@ async function getUserComments() {
   if (commentsError) {
     console.log(commentsError)
   } else {
-    reviewComments.value = commentsData
-    console.log(reviewComments)
+    // reviewComments.value = commentsData
+    console.log(reviewComments.value)
   }
 }
 
@@ -58,11 +58,11 @@ onMounted(async () => {
 
 async function removeComment(review: ReviewCommentHome) {
   try {
-    const { error } = await supabase.from('review').delete().eq('id', book.id)
+    const { error } = await supabase.from('review').delete().eq('id', review.book_id)
     if (error) {
       console.log(error)
     } else {
-      reviewComments.value = reviewComments.value.filter((r) => r.id !== review.id)
+      reviewComments.value = reviewComments.value.filter((r) => r.book_id !== review.book_id)
     }
   } catch (error) {
     console.log(error)
