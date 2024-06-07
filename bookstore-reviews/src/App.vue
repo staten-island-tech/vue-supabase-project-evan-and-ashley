@@ -13,7 +13,7 @@
             <RouterLink to="/profile">Profile</RouterLink>
           </li>
         </ul>
-        <div class="logo-container"> <!-- added this div -->
+        <div class="logo-container"> 
           <img src='@/images/bookstore.png' alt="Bookhub logo"/>
           <span class="website-name">BookHub</span>
         </div>
@@ -67,45 +67,29 @@ supabase.auth.onAuthStateChange((_, _session) => {
 </script>
 
 <style scoped>
-/* ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-li {
-  display: inline;
-  float: left;
-}
-
-a {
-  display: block;
-  padding: 8px;
-  background-color: #dddddd;
-} */
 
 .wrapper {
     width: 100%;
-    box-sizing: border-box; /* make sure padding is included in width */
+    box-sizing: border-box; 
   }
 
   nav {
-    display: flex; /* make nav a flex container */
-    justify-content: space-between; /* distribute elements evenly */
-    align-items: center; /* center elements vertically */
-    background-color: #f5f5f5; /* add a background color to nav */
-    padding: 20px; /* add some padding to nav */
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; 
+    background-color: #f5f5f5; 
+    padding: 20px; 
   }
 
   ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    display: flex; /* make ul a flex container */
+    display: flex; 
   }
 
   li {
-    margin-right: 20px; /* add some space between list items */
+    margin-right: 20px; 
     font-size: 2rem;
   }
 
@@ -113,18 +97,17 @@ a {
     display: block;
     margin-left: 1rem;
     background-color: #f5f5f5;
-        color: #333; /* add a text color to links */
-    text-decoration: none; /* remove underline from links */
+        color: #333; 
+    text-decoration: none; 
   }
 
   /* Add this to add an image to the nav bar */
   nav img {
     width: 5rem; /* set image width */
-    height: 5rem; /* set image height */
-    margin-right: 10px; /* add some space between image and nav items */
+    height: 5rem; 
+    margin-right: 10px; 
   }
 
-  /* Add this to style the sign out button */
   button {
     background-color: #333;
     color: #fff;

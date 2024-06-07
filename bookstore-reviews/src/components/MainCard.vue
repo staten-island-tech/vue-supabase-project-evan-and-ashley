@@ -93,11 +93,10 @@ img {
   padding: 1.25rem;
   position: relative;
   transition: 0.15s ease-in;
-  display: flex; /* add this */
-  flex-direction: column; /* add this */
-  align-items: center; /* add this */
-  text-align: center; /* add this */
-  margin-top: 2rem;
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center;
   margin-left: 2rem;
 
   &:hover,

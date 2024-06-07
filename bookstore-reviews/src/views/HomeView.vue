@@ -72,7 +72,7 @@ async function removeComment(review: ReviewCommentHome) {
 
 <style scoped>
 .review:not(:last-child) {
-  border-bottom: 1px solid #ccc; /* add the border to all reviews except the last one */
+  border-bottom: 1px solid #ccc; 
 }
 .review {
   border-bottom: 1px solid gray;

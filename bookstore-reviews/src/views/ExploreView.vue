@@ -128,9 +128,9 @@ onMounted(() => {
 .label {
   font-weight: 500;
   color: white;
-  margin-right: 10px; /* add some margin to separate from the input field */
-  display: inline-block; /* make it an inline-block element */
-  vertical-align: middle; /* align it vertically with the input field */
+  margin-right: 10px; 
+  display: inline-block; 
+  vertical-align: middle; 
 }
 .label-container{
   background-color: black;
