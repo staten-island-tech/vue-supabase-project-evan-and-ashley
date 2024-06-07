@@ -10,7 +10,7 @@
           />
         </div>
         <div class="review-content">
-          <h2>Tile: {{ review.book_title }}</h2>
+          <h2>Title: {{ review.book_title }}</h2>
           <h2>Rating: {{ review.rating }}</h2>
           <h2>Comment: {{ review.comment }}</h2>
           <button @click="removeComment(review)">Remove Comment</button>
@@ -58,7 +58,7 @@ onMounted(async () => {
 
 async function removeComment(review: ReviewCommentHome) {
   try {
-    const { error } = await supabase.from('review').delete().eq('id', review.book)
+    const { error } = await supabase.from('review').delete().eq('id', book.id)
     if (error) {
       console.log(error)
     } else {
