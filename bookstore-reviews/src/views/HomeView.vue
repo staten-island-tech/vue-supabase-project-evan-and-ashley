@@ -13,7 +13,7 @@
           <h2>Tile: {{ review.book_title }}</h2>
           <h2>Rating: {{ review.rating }}</h2>
           <h2>Comment: {{ review.comment }}</h2>
-          <button @click="removeComment(review.id)">Remove Comment</button>
+          <button @click="removeComment(review)">Remove Comment</button>
         </div>
       </div>
     </div>
@@ -32,13 +32,13 @@ import type { ReviewCommentHome } from '@/assets/types'
 
 const authStore = sessionStore()
 const { session } = storeToRefs(authStore)
-const user = ref<string>(session.value.user.id)
 const reviewComments = ref<ReviewCommentHome[]>([])
 
 async function getUserComments() {
-  const { data: commentsData, error: commentsError } = await supabase.rpc('new_get_user_review', {
-    current_user_id: user.value
-  })
+  const { data: commentsData, error: commentsError } = await supabase
+    .from('review')
+    .select('user, book, rating, comment')
+    .eq('user', sessionStore().session.user.id)
 
   if (commentsError) {
     console.log(commentsError)
@@ -49,17 +49,20 @@ async function getUserComments() {
 }
 
 onMounted(async () => {
-  await getUserComments()
+  if (sessionStore().session.user.id) {
+    await getUserComments()
+  } else {
+    console.log('User ID is not defined')
+  }
 })
 
-async function removeComment(commentId: String) {
+async function removeComment(review: ReviewCommentHome) {
   try {
-    const { error } = await supabase.from('review').delete().eq('id', commentId)
+    const { error } = await supabase.from('review').delete().eq('id', review.book)
     if (error) {
       console.log(error)
     } else {
-      await supabase.from('review').select()
-      reviewComments.value = reviewComments.value.filter((comment) => comment.id !== commentId)
+      reviewComments.value = reviewComments.value.filter((r) => r.id !== review.id)
     }
   } catch (error) {
     console.log(error)
