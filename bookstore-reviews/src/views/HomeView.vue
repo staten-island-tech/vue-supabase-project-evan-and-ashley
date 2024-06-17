@@ -32,18 +32,36 @@ import type { ReviewCommentHome } from '@/assets/types'
 
 const authStore = sessionStore()
 const { session } = storeToRefs(authStore)
-const reviewComments = ref<ReviewCommentHome[]>([])
+const reviewComments = ref<
+  {
+    book_id: number
+    id: string
+    length: number
+    book_title: string
+    rating: string
+    comment: string
+  }[]
+>([])
 
 async function getUserComments() {
   const { data: commentsData, error: commentsError } = await supabase
     .from('review')
     .select('user, book, rating, comment')
-    .eq('user', sessionStore().session.user.id)
-
+    .eq('user', session.value.user.id)
+  //sessionStore().session.user.id
   if (commentsError) {
     console.log(commentsError)
   } else {
-    // reviewComments.value = commentsData
+    reviewComments.value = commentsData.map((comment: any) => {
+      return {
+        id: comment.id,
+        book_id: comment.book_id,
+        length: reviewComments.value.length,
+        book_title: comment.book_title,
+        rating: comment.rating,
+        comment: comment.comment
+      }
+    })
     console.log(reviewComments.value)
   }
 }
@@ -72,7 +90,7 @@ async function removeComment(review: ReviewCommentHome) {
 
 <style scoped>
 .review:not(:last-child) {
-  border-bottom: 1px solid #ccc; 
+  border-bottom: 1px solid #ccc;
 }
 .review {
   border-bottom: 1px solid gray;
